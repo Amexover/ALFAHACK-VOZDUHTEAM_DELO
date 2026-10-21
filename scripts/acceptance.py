@@ -1,4 +1,4 @@
-"""Destructive-to-demo-only acceptance on an explicitly isolated stack; no reset endpoint used."""
+"""Приёмка только на отдельном демонстрационном стенде; сброс общей базы не вызывается."""
 import argparse
 import http.cookiejar
 import json
