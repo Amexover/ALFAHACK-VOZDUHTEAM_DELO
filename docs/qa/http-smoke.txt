@@ -1,0 +1,10 @@
+
+> delo-frontend@1.0.0 smoke
+> node scripts/smoke.mjs
+
+{
+  "base": "http://195.133.41.30",
+  "checks": 34,
+  "result": "PASS",
+  "scope": "Read-only HTTP smoke + synthetic demo login; no applications created or reset"
+}

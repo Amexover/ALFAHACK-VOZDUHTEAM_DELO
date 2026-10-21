@@ -1,0 +1,15 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Заявка заполнена не полностью",
+    "fields": {
+      "product_id": "Выберите цель и продукт",
+      "business_profile.industry": "Обязательное поле",
+      "business_profile.months_operating": "Обязательное поле",
+      "business_profile.monthly_revenue": "Обязательное поле",
+      "business_profile.monthly_debt_payments": "Обязательное поле",
+      "business_profile.purpose_details": "Обязательное поле",
+      "confirm_data": "Подтвердите достоверность данных"
+    }
+  }
+}

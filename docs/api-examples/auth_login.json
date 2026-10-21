@@ -1,0 +1,10 @@
+{
+  "user": {
+    "id": 1,
+    "login": "alexey",
+    "full_name": "Алексей Морозов",
+    "first_name": "Алексей",
+    "role": "CLIENT"
+  },
+  "token": "DEMO_TOKEN_FROM_LOGIN"
+}

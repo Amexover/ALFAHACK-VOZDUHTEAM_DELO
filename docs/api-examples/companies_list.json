@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "ИП Морозов Алексей Сергеевич",
+      "legal_form": "IP",
+      "legal_form_label": "ИП",
+      "registration_number": "000000000000001",
+      "registration_label": "ОГРНИП",
+      "max_amount": 3000000
+    },
+    {
+      "id": 2,
+      "name": "ООО «Маяк Трейд»",
+      "legal_form": "OOO",
+      "legal_form_label": "ООО",
+      "registration_number": "0000000000002",
+      "registration_label": "ОГРН",
+      "max_amount": 10000000
+    },
+    {
+      "id": 3,
+      "name": "ООО «Вектор-Станок»",
+      "legal_form": "OOO",
+      "legal_form_label": "ООО",
+      "registration_number": "0000000000003",
+      "registration_label": "ОГРН",
+      "max_amount": 10000000
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "id": 2,
+  "number": "D-2026-000002",
+  "company_id": 3,
+  "company_name": "ООО «Вектор-Станок»",
+  "borrowing_mode": "REFINANCE",
+  "borrowing_mode_label": "Рефинансирование действующего кредита",
+  "product_id": null,
+  "product_name": null,
+  "existing_loan_name": "Кредит на оборудование",
+  "amount": 2000000,
+  "term_months": 30,
+  "status": "REJECTED",
+  "status_label": "Отказ",
+  "current_step": null,
+  "created_at": "2026-10-21T12:37:25.524594",
+  "updated_at": "2026-10-21T12:37:25.536049",
+  "submitted_at": "2026-10-21T12:37:25.531681",
+  "company": {
+    "id": 3,
+    "name": "ООО «Вектор-Станок»",
+    "legal_form": "OOO",
+    "legal_form_label": "ООО",
+    "registration_number": "0000000000003",
+    "registration_label": "ОГРН",
+    "max_amount": 10000000
+  },
+  "existing_loan": {
+    "id": 2,
+    "product_id": "EQUIPMENT",
+    "name": "Кредит на оборудование",
+    "original_amount": 3000000,
+    "balance": 2000000,
+    "rate": 23,
+    "next_payment_amount": 115000,
+    "next_payment_date": "2026-11-20"
+  },
+  "preliminary_rate": 28,
+  "preliminary_payment": 93445,
+  "rating_based": true,
+  "rating_note": null,
+  "preliminary_note": "Окончательные условия появятся после рассмотрения заявки.",
+  "comparison": {
+    "current_rate": 23,
+    "current_next_payment": 115000,
+    "new_rate": 28,
+    "new_payment": 93445,
+    "rate_delta": 5,
+    "payment_delta": -21555,
+    "rate_is_lower": false,
+    "payment_is_lower": true,
+    "is_better": false,
+    "note": "Оставшийся срок текущего кредита может отличаться, поэтому платежи сравниваются ориентировочно."
+  },
+  "business_profile": {
+    "industry": "Оптовая торговля",
+    "months_operating": 36,
+    "monthly_revenue": 1800000,
+    "monthly_debt_payments": 120000,
+    "purpose_details": "Хочу снизить ежемесячный платёж"
+  },
+  "next_steps_text": "Банк не может одобрить заявку. Объяснение — ниже.",
+  "stage": {
+    "active": "DECISION",
+    "steps": [
+      {
+        "key": "SUBMITTED",
+        "label": "Заявка отправлена",
+        "state": "done"
+      },
+      {
+        "key": "CHECK",
+        "label": "Проверка данных",
+        "state": "done"
+      },
+      {
+        "key": "DECISION",
+        "label": "Решение",
+        "state": "active"
+      },
+      {
+        "key": "COMPLETION",
+        "label": "Завершение",
+        "state": "pending"
+      }
+    ]
+  },
+  "decided_at": "2026-10-21T12:37:25.535904",
+  "completed_at": null,
+  "info_request": null,
+  "decision": {
+    "id": 2,
+    "kind": "REJECTED",
+    "kind_label": "Отказ",
+    "amount": null,
+    "term_months": null,
+    "rate": null,
+    "monthly_payment": null,
+    "comment": null,
+    "reason_text": "Кредитная история компании пока не позволяет одобрить заявку на запрошенных условиях.",
+    "created_at": "2026-10-21T12:37:25.536272",
+    "requested": {
+      "amount": 2000000,
+      "term_months": 30,
+      "rate": 28,
+      "monthly_payment": 93445
+    },
+    "changed_fields": [],
+    "refinance_remainder": null,
+    "refinance_remainder_text": null
+  },
+  "events": [
+    {
+      "id": 6,
+      "type": "SUBMITTED",
+      "label": "Заявка отправлена",
+      "actor": "Алексей Морозов",
+      "actor_role": "CLIENT",
+      "text": null,
+      "fields": null,
+      "created_at": "2026-10-21T12:37:25.532361"
+    },
+    {
+      "id": 7,
+      "type": "REJECTED",
+      "label": "Отказ по заявке",
+      "actor": "Банк",
+      "actor_role": "EMPLOYEE",
+      "text": "Кредитная история компании пока не позволяет одобрить заявку на запрошенных условиях.",
+      "fields": null,
+      "created_at": "2026-10-21T12:37:25.536207"
+    }
+  ],
+  "available_actions": []
+}

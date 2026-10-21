@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Проверьте введённые данные",
+    "fields": {
+      "name": "Укажите название",
+      "registration_number": "ОГРНИП должен содержать 15 цифр"
+    }
+  }
+}

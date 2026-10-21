@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "product_id": "WORKING_CAPITAL",
+      "name": "Оборотный кредит",
+      "original_amount": 900000,
+      "balance": 600000,
+      "rate": 25,
+      "next_payment_amount": 36000,
+      "next_payment_date": "2026-11-20",
+      "active_application_id": null
+    }
+  ]
+}

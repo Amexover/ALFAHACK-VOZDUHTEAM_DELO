@@ -1,0 +1,13 @@
+services:
+  api:
+    ports: !override
+      - "127.0.0.1:8000:8000"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prebuilt
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "80:80"

@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ALREADY_ACCEPTED",
+    "message": "Условия уже приняты",
+    "fields": {}
+  }
+}

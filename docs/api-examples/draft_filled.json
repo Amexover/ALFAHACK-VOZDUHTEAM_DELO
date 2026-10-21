@@ -1,0 +1,77 @@
+{
+  "id": 1,
+  "number": null,
+  "company_id": 1,
+  "company_name": "ИП Морозов Алексей Сергеевич",
+  "borrowing_mode": "NEW_CREDIT",
+  "borrowing_mode_label": "Новый кредит",
+  "product_id": "WORKING_CAPITAL",
+  "product_name": "Оборотный кредит",
+  "existing_loan_name": null,
+  "amount": 1500000,
+  "term_months": 24,
+  "status": "DRAFT",
+  "status_label": "Черновик",
+  "current_step": "review",
+  "created_at": "2026-10-21T12:37:25.482351",
+  "updated_at": "2026-10-21T12:37:25.492167+00:00",
+  "submitted_at": null,
+  "company": {
+    "id": 1,
+    "name": "ИП Морозов Алексей Сергеевич",
+    "legal_form": "IP",
+    "legal_form_label": "ИП",
+    "registration_number": "000000000000001",
+    "registration_label": "ОГРНИП",
+    "max_amount": 3000000
+  },
+  "existing_loan": null,
+  "preliminary_rate": 18,
+  "preliminary_payment": 74886,
+  "rating_based": true,
+  "rating_note": null,
+  "preliminary_note": "Условия предварительные и могут измениться после рассмотрения.",
+  "comparison": null,
+  "business_profile": {
+    "industry": "Оптовая торговля",
+    "months_operating": 36,
+    "monthly_revenue": 1800000,
+    "monthly_debt_payments": 120000,
+    "purpose_details": "Закупка товаров к зимнему сезону"
+  },
+  "next_steps_text": "Заполните заявку и отправьте её на рассмотрение.",
+  "stage": {
+    "active": null,
+    "steps": [
+      {
+        "key": "SUBMITTED",
+        "label": "Заявка отправлена",
+        "state": "pending"
+      },
+      {
+        "key": "CHECK",
+        "label": "Проверка данных",
+        "state": "pending"
+      },
+      {
+        "key": "DECISION",
+        "label": "Решение",
+        "state": "pending"
+      },
+      {
+        "key": "COMPLETION",
+        "label": "Завершение",
+        "state": "pending"
+      }
+    ]
+  },
+  "decided_at": null,
+  "completed_at": null,
+  "info_request": null,
+  "decision": null,
+  "events": [],
+  "available_actions": [
+    "edit",
+    "submit"
+  ]
+}

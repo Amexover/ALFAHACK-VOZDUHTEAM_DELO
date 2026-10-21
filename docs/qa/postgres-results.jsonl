@@ -1,0 +1,2 @@
+{"result": "PASS", "phase": "postgres-full-flow", "checks": 52, "ids": {"completed_new": 1, "completed_refinance": 2, "rejected": 3}}
+{"result": "PASS", "phase": "after-api-restart", "checks": 12, "ids": {"completed_new": 1, "completed_refinance": 2, "rejected": 3}}

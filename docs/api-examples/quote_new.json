@@ -1,0 +1,10 @@
+{
+  "amount": 1500000,
+  "term_months": 24,
+  "rate": 18,
+  "monthly_payment": 74886,
+  "rating_based": true,
+  "rating_note": null,
+  "preliminary_note": "Условия предварительные и могут измениться после рассмотрения.",
+  "comparison": null
+}

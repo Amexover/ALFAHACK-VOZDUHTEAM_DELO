@@ -1,0 +1,21 @@
+{
+  "amount": 600000,
+  "term_months": 18,
+  "rate": 17,
+  "monthly_payment": 37998,
+  "rating_based": true,
+  "rating_note": null,
+  "preliminary_note": "Условия предварительные и могут измениться после рассмотрения.",
+  "comparison": {
+    "current_rate": 25,
+    "current_next_payment": 36000,
+    "new_rate": 17,
+    "new_payment": 37998,
+    "rate_delta": -8,
+    "payment_delta": 1998,
+    "rate_is_lower": true,
+    "payment_is_lower": false,
+    "is_better": true,
+    "note": "Оставшийся срок текущего кредита может отличаться, поэтому платежи сравниваются ориентировочно."
+  }
+}

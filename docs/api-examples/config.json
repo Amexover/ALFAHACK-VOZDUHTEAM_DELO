@@ -1,0 +1,185 @@
+{
+  "amount": {
+    "min": 100000,
+    "step": 50000,
+    "max_by_legal_form": {
+      "IP": 3000000,
+      "OOO": 10000000
+    },
+    "default": 1000000
+  },
+  "term": {
+    "min": 6,
+    "max": 36,
+    "step": 1,
+    "default": 12
+  },
+  "rating": {
+    "min": 0,
+    "max": 1000,
+    "bands": [
+      {
+        "from": 750,
+        "to": 1000,
+        "code": "HIGH",
+        "label": "высокий",
+        "base_rate": 18
+      },
+      {
+        "from": 500,
+        "to": 749,
+        "code": "MEDIUM",
+        "label": "средний",
+        "base_rate": 22
+      },
+      {
+        "from": 0,
+        "to": 499,
+        "code": "LOW",
+        "label": "низкий",
+        "base_rate": 27
+      }
+    ],
+    "new_business_rating": 600
+  },
+  "rate_rules": {
+    "no_rating_rate": 24,
+    "long_term_from_months": 25,
+    "long_term_surcharge": 2,
+    "refinance_discount": 1
+  },
+  "products": [
+    {
+      "product_id": "WORKING_CAPITAL",
+      "card_title": "Закупки и текущие расходы",
+      "name": "Оборотный кредит",
+      "description": "Разовая сумма на закупку товаров, сырья и другие текущие расходы бизнеса. Возврат равными ежемесячными платежами."
+    },
+    {
+      "product_id": "EQUIPMENT",
+      "card_title": "Покупка оборудования",
+      "name": "Кредит на оборудование",
+      "description": "Разовая сумма на станки, технику и рабочее оборудование. Возврат равными ежемесячными платежами."
+    }
+  ],
+  "borrowing_modes": [
+    {
+      "borrowing_mode": "NEW_CREDIT",
+      "button_label": "Новый кредит",
+      "name": "Новый кредит"
+    },
+    {
+      "borrowing_mode": "REFINANCE",
+      "button_label": "Рефинансирование",
+      "name": "Рефинансирование действующего кредита"
+    }
+  ],
+  "legal_forms": [
+    {
+      "legal_form": "OOO",
+      "label": "ООО",
+      "registration_label": "ОГРН",
+      "registration_length": 13
+    },
+    {
+      "legal_form": "IP",
+      "label": "ИП",
+      "registration_label": "ОГРНИП",
+      "registration_length": 15
+    }
+  ],
+  "statuses": [
+    {
+      "status": "DRAFT",
+      "label": "Черновик"
+    },
+    {
+      "status": "IN_REVIEW",
+      "label": "На рассмотрении"
+    },
+    {
+      "status": "NEED_INFO",
+      "label": "Нужно уточнить сведения"
+    },
+    {
+      "status": "APPROVED",
+      "label": "Одобрено"
+    },
+    {
+      "status": "COUNTER_OFFER",
+      "label": "Предложены другие условия"
+    },
+    {
+      "status": "REJECTED",
+      "label": "Отказ"
+    },
+    {
+      "status": "COMPLETED",
+      "label": "Условия приняты"
+    }
+  ],
+  "stages": [
+    {
+      "key": "SUBMITTED",
+      "label": "Заявка отправлена"
+    },
+    {
+      "key": "CHECK",
+      "label": "Проверка данных"
+    },
+    {
+      "key": "DECISION",
+      "label": "Решение"
+    },
+    {
+      "key": "COMPLETION",
+      "label": "Завершение"
+    }
+  ],
+  "profile_fields": [
+    {
+      "key": "industry",
+      "label": "Сфера деятельности",
+      "type": "string",
+      "unit": null,
+      "hint": "Например: оптовая торговля, производство мебели"
+    },
+    {
+      "key": "months_operating",
+      "label": "Сколько месяцев работает бизнес",
+      "type": "integer",
+      "unit": "мес.",
+      "hint": "Считая с даты регистрации"
+    },
+    {
+      "key": "monthly_revenue",
+      "label": "Среднемесячная выручка",
+      "type": "integer",
+      "unit": "₽",
+      "hint": "Средняя выручка за последние 6–12 месяцев"
+    },
+    {
+      "key": "monthly_debt_payments",
+      "label": "Текущие ежемесячные платежи по долгам",
+      "type": "integer",
+      "unit": "₽",
+      "hint": "Сумма платежей по всем кредитам и займам; 0, если долгов нет"
+    },
+    {
+      "key": "purpose_details",
+      "label": "Пояснение цели",
+      "label_refinance": "Почему хотите изменить условия?",
+      "type": "string",
+      "unit": null,
+      "hint": "Пара предложений своими словами"
+    }
+  ],
+  "texts": {
+    "rating_source": "Демонстрационные данные скорингового бюро",
+    "rating_hint": "Рейтинг влияет на предварительный расчёт ставки, но сам по себе не означает одобрение. Окончательное решение принимает банк после рассмотрения заявки.",
+    "rating_unavailable": "Рейтинг пока недоступен",
+    "preliminary_note": "Условия предварительные и могут измениться после рассмотрения.",
+    "final_terms_note": "Окончательные условия появятся после рассмотрения заявки.",
+    "refinance_comparison_note": "Оставшийся срок текущего кредита может отличаться, поэтому платежи сравниваются ориентировочно."
+  }
+}

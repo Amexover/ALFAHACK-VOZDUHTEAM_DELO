@@ -1,0 +1,559 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T13:55:51.345453+00:00",
+  "title": "Design System: Дело",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Светлый фон",
+        "tonalRamp": [
+          "oklch(15.0% 0.00265 286.35)",
+          "oklch(26.43% 0.00265 286.35)",
+          "oklch(37.86% 0.00265 286.35)",
+          "oklch(49.29% 0.00265 286.35)",
+          "oklch(60.71% 0.00265 286.35)",
+          "oklch(72.14% 0.00265 286.35)",
+          "oklch(83.57% 0.00265 286.35)",
+          "oklch(95.0% 0.00265 286.35)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Белая поверхность",
+        "tonalRamp": [
+          "oklch(15.0% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.0% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Основной текст",
+        "tonalRamp": [
+          "oklch(15.0% 0.00381 286.10)",
+          "oklch(26.43% 0.00381 286.10)",
+          "oklch(37.86% 0.00381 286.10)",
+          "oklch(49.29% 0.00381 286.10)",
+          "oklch(60.71% 0.00381 286.10)",
+          "oklch(72.14% 0.00381 286.10)",
+          "oklch(83.57% 0.00381 286.10)",
+          "oklch(95.0% 0.00381 286.10)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Вторичный текст",
+        "tonalRamp": [
+          "oklch(15.0% 0.01097 286.00)",
+          "oklch(26.43% 0.01097 286.00)",
+          "oklch(37.86% 0.01097 286.00)",
+          "oklch(49.29% 0.01097 286.00)",
+          "oklch(60.71% 0.01097 286.00)",
+          "oklch(72.14% 0.01097 286.00)",
+          "oklch(83.57% 0.01097 286.00)",
+          "oklch(95.0% 0.01097 286.00)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Разделитель",
+        "tonalRamp": [
+          "oklch(15.0% 0.00676 286.26)",
+          "oklch(26.43% 0.00676 286.26)",
+          "oklch(37.86% 0.00676 286.26)",
+          "oklch(49.29% 0.00676 286.26)",
+          "oklch(60.71% 0.00676 286.26)",
+          "oklch(72.14% 0.00676 286.26)",
+          "oklch(83.57% 0.00676 286.26)",
+          "oklch(95.0% 0.00676 286.26)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Синий ссылки",
+        "tonalRamp": [
+          "oklch(15.0% 0.17709 255.83)",
+          "oklch(26.43% 0.17709 255.83)",
+          "oklch(37.86% 0.17709 255.83)",
+          "oklch(49.29% 0.17709 255.83)",
+          "oklch(60.71% 0.17709 255.83)",
+          "oklch(72.14% 0.17709 255.83)",
+          "oklch(83.57% 0.17709 255.83)",
+          "oklch(95.0% 0.17709 255.83)"
+        ]
+      },
+      "tint": {
+        "role": "primary",
+        "displayName": "Голубая сводка",
+        "tonalRamp": [
+          "oklch(15.0% 0.01878 255.53)",
+          "oklch(26.43% 0.01878 255.53)",
+          "oklch(37.86% 0.01878 255.53)",
+          "oklch(49.29% 0.01878 255.53)",
+          "oklch(60.71% 0.01878 255.53)",
+          "oklch(72.14% 0.01878 255.53)",
+          "oklch(83.57% 0.01878 255.53)",
+          "oklch(95.0% 0.01878 255.53)"
+        ]
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Синий действия",
+        "tonalRamp": [
+          "oklch(15.0% 0.19333 256.16)",
+          "oklch(26.43% 0.19333 256.16)",
+          "oklch(37.86% 0.19333 256.16)",
+          "oklch(49.29% 0.19333 256.16)",
+          "oklch(60.71% 0.19333 256.16)",
+          "oklch(72.14% 0.19333 256.16)",
+          "oklch(83.57% 0.19333 256.16)",
+          "oklch(95.0% 0.19333 256.16)"
+        ]
+      },
+      "action-hover": {
+        "role": "primary",
+        "displayName": "action-hover",
+        "tonalRamp": [
+          "oklch(15.0% 0.17672 256.38)",
+          "oklch(26.43% 0.17672 256.38)",
+          "oklch(37.86% 0.17672 256.38)",
+          "oklch(49.29% 0.17672 256.38)",
+          "oklch(60.71% 0.17672 256.38)",
+          "oklch(72.14% 0.17672 256.38)",
+          "oklch(83.57% 0.17672 256.38)",
+          "oklch(95.0% 0.17672 256.38)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "secondary",
+        "tonalRamp": [
+          "oklch(15.0% 0.00400 286.32)",
+          "oklch(26.43% 0.00400 286.32)",
+          "oklch(37.86% 0.00400 286.32)",
+          "oklch(49.29% 0.00400 286.32)",
+          "oklch(60.71% 0.00400 286.32)",
+          "oklch(72.14% 0.00400 286.32)",
+          "oklch(83.57% 0.00400 286.32)",
+          "oklch(95.0% 0.00400 286.32)"
+        ]
+      },
+      "secondary-hover": {
+        "role": "neutral",
+        "displayName": "secondary-hover",
+        "tonalRamp": [
+          "oklch(15.0% 0.00672 286.27)",
+          "oklch(26.43% 0.00672 286.27)",
+          "oklch(37.86% 0.00672 286.27)",
+          "oklch(49.29% 0.00672 286.27)",
+          "oklch(60.71% 0.00672 286.27)",
+          "oklch(72.14% 0.00672 286.27)",
+          "oklch(83.57% 0.00672 286.27)",
+          "oklch(95.0% 0.00672 286.27)"
+        ]
+      },
+      "quiet": {
+        "role": "neutral",
+        "displayName": "quiet",
+        "tonalRamp": [
+          "oklch(15.0% 0.00399 286.32)",
+          "oklch(26.43% 0.00399 286.32)",
+          "oklch(37.86% 0.00399 286.32)",
+          "oklch(49.29% 0.00399 286.32)",
+          "oklch(60.71% 0.00399 286.32)",
+          "oklch(72.14% 0.00399 286.32)",
+          "oklch(83.57% 0.00399 286.32)",
+          "oklch(95.0% 0.00399 286.32)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "field-border",
+        "tonalRamp": [
+          "oklch(15.0% 0.00968 286.19)",
+          "oklch(26.43% 0.00968 286.19)",
+          "oklch(37.86% 0.00968 286.19)",
+          "oklch(49.29% 0.00968 286.19)",
+          "oklch(60.71% 0.00968 286.19)",
+          "oklch(72.14% 0.00968 286.19)",
+          "oklch(83.57% 0.00968 286.19)",
+          "oklch(95.0% 0.00968 286.19)"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Ошибка и опасное действие",
+        "tonalRamp": [
+          "oklch(15.0% 0.18205 29.51)",
+          "oklch(26.43% 0.18205 29.51)",
+          "oklch(37.86% 0.18205 29.51)",
+          "oklch(49.29% 0.18205 29.51)",
+          "oklch(60.71% 0.18205 29.51)",
+          "oklch(72.14% 0.18205 29.51)",
+          "oklch(83.57% 0.18205 29.51)",
+          "oklch(95.0% 0.18205 29.51)"
+        ]
+      },
+      "status-bg": {
+        "role": "semantic",
+        "displayName": "status-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.01371 247.97)",
+          "oklch(26.43% 0.01371 247.97)",
+          "oklch(37.86% 0.01371 247.97)",
+          "oklch(49.29% 0.01371 247.97)",
+          "oklch(60.71% 0.01371 247.97)",
+          "oklch(72.14% 0.01371 247.97)",
+          "oklch(83.57% 0.01371 247.97)",
+          "oklch(95.0% 0.01371 247.97)"
+        ]
+      },
+      "status-ink": {
+        "role": "semantic",
+        "displayName": "status-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.12500 254.69)",
+          "oklch(26.43% 0.12500 254.69)",
+          "oklch(37.86% 0.12500 254.69)",
+          "oklch(49.29% 0.12500 254.69)",
+          "oklch(60.71% 0.12500 254.69)",
+          "oklch(72.14% 0.12500 254.69)",
+          "oklch(83.57% 0.12500 254.69)",
+          "oklch(95.0% 0.12500 254.69)"
+        ]
+      },
+      "warning-bg": {
+        "role": "semantic",
+        "displayName": "warning-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.02931 80.66)",
+          "oklch(26.43% 0.02931 80.66)",
+          "oklch(37.86% 0.02931 80.66)",
+          "oklch(49.29% 0.02931 80.66)",
+          "oklch(60.71% 0.02931 80.66)",
+          "oklch(72.14% 0.02931 80.66)",
+          "oklch(83.57% 0.02931 80.66)",
+          "oklch(95.0% 0.02931 80.66)"
+        ]
+      },
+      "warning-ink": {
+        "role": "semantic",
+        "displayName": "warning-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.09983 68.23)",
+          "oklch(26.43% 0.09983 68.23)",
+          "oklch(37.86% 0.09983 68.23)",
+          "oklch(49.29% 0.09983 68.23)",
+          "oklch(60.71% 0.09983 68.23)",
+          "oklch(72.14% 0.09983 68.23)",
+          "oklch(83.57% 0.09983 68.23)",
+          "oklch(95.0% 0.09983 68.23)"
+        ]
+      },
+      "success-bg": {
+        "role": "semantic",
+        "displayName": "success-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.01654 162.75)",
+          "oklch(26.43% 0.01654 162.75)",
+          "oklch(37.86% 0.01654 162.75)",
+          "oklch(49.29% 0.01654 162.75)",
+          "oklch(60.71% 0.01654 162.75)",
+          "oklch(72.14% 0.01654 162.75)",
+          "oklch(83.57% 0.01654 162.75)",
+          "oklch(95.0% 0.01654 162.75)"
+        ]
+      },
+      "success-ink": {
+        "role": "semantic",
+        "displayName": "success-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.08743 158.85)",
+          "oklch(26.43% 0.08743 158.85)",
+          "oklch(37.86% 0.08743 158.85)",
+          "oklch(49.29% 0.08743 158.85)",
+          "oklch(60.71% 0.08743 158.85)",
+          "oklch(72.14% 0.08743 158.85)",
+          "oklch(83.57% 0.08743 158.85)",
+          "oklch(95.0% 0.08743 158.85)"
+        ]
+      },
+      "rejected-bg": {
+        "role": "semantic",
+        "displayName": "rejected-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.01650 26.65)",
+          "oklch(26.43% 0.01650 26.65)",
+          "oklch(37.86% 0.01650 26.65)",
+          "oklch(49.29% 0.01650 26.65)",
+          "oklch(60.71% 0.01650 26.65)",
+          "oklch(72.14% 0.01650 26.65)",
+          "oklch(83.57% 0.01650 26.65)",
+          "oklch(95.0% 0.01650 26.65)"
+        ]
+      },
+      "rejected-ink": {
+        "role": "semantic",
+        "displayName": "rejected-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.14316 28.17)",
+          "oklch(26.43% 0.14316 28.17)",
+          "oklch(37.86% 0.14316 28.17)",
+          "oklch(49.29% 0.14316 28.17)",
+          "oklch(60.71% 0.14316 28.17)",
+          "oklch(72.14% 0.14316 28.17)",
+          "oklch(83.57% 0.14316 28.17)",
+          "oklch(95.0% 0.14316 28.17)"
+        ]
+      },
+      "counter-bg": {
+        "role": "semantic",
+        "displayName": "counter-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.02019 279.94)",
+          "oklch(26.43% 0.02019 279.94)",
+          "oklch(37.86% 0.02019 279.94)",
+          "oklch(49.29% 0.02019 279.94)",
+          "oklch(60.71% 0.02019 279.94)",
+          "oklch(72.14% 0.02019 279.94)",
+          "oklch(83.57% 0.02019 279.94)",
+          "oklch(95.0% 0.02019 279.94)"
+        ]
+      },
+      "counter-ink": {
+        "role": "semantic",
+        "displayName": "counter-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.15117 285.90)",
+          "oklch(26.43% 0.15117 285.90)",
+          "oklch(37.86% 0.15117 285.90)",
+          "oklch(49.29% 0.15117 285.90)",
+          "oklch(60.71% 0.15117 285.90)",
+          "oklch(72.14% 0.15117 285.90)",
+          "oklch(83.57% 0.15117 285.90)",
+          "oklch(95.0% 0.15117 285.90)"
+        ]
+      },
+      "segment-bg": {
+        "role": "neutral",
+        "displayName": "segment-bg",
+        "tonalRamp": [
+          "oklch(15.0% 0.00670 286.27)",
+          "oklch(26.43% 0.00670 286.27)",
+          "oklch(37.86% 0.00670 286.27)",
+          "oklch(49.29% 0.00670 286.27)",
+          "oklch(60.71% 0.00670 286.27)",
+          "oklch(72.14% 0.00670 286.27)",
+          "oklch(83.57% 0.00670 286.27)",
+          "oklch(95.0% 0.00670 286.27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "display",
+        "purpose": "Главный заголовок dashboard; мобильные размеры см. Layout."
+      },
+      "headline": {
+        "displayName": "headline",
+        "purpose": "Заголовок рабочей страницы."
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "Заголовок раздела."
+      },
+      "body": {
+        "displayName": "body",
+        "purpose": "Основной текст."
+      },
+      "label": {
+        "displayName": "label",
+        "purpose": "Подпись поля."
+      },
+      "button": {
+        "displayName": "button",
+        "purpose": "Текст кнопки."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "0 22px 75px #00000024",
+        "purpose": "Единственная приподнятая модальная поверхность."
+      },
+      {
+        "name": "selected-segment",
+        "value": "0 1px 4px #0000000d",
+        "purpose": "Выбранный сегмент."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 3px #0071e31a",
+        "purpose": "Фокус поля."
+      },
+      {
+        "name": "choice-hover",
+        "value": "inset 0 0 0 1px #b5d4ef",
+        "purpose": "Внутренняя граница карточки выбора при наведении."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background 0.16s ease, color 0.16s ease",
+        "purpose": "Смена состояния основной и вторичной кнопки."
+      },
+      {
+        "name": "loading",
+        "value": "spin 1s linear infinite",
+        "purpose": "Индикатор ожидания вместе с текстом состояния."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce) { *, *:before, *:after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }",
+        "purpose": "Отключение движения по системной настройке."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1400px"
+      },
+      {
+        "name": "compact-max",
+        "value": "1050px"
+      },
+      {
+        "name": "mobile-max",
+        "value": "760px"
+      },
+      {
+        "name": "narrow-max",
+        "value": "390px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button / primary",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Существующий вариант кнопки; подпись примера не задаёт условия продукта.",
+      "html": "<button class=\"ds-button-primary\">Продолжить</button>",
+      "css": ".ds-button-primary{font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;border:1px solid transparent;border-radius:24px;font-size:14px;line-height:1.3;padding:12px 21px;font-weight:450;cursor:pointer;transition:background .16s ease,color .16s ease;background:#0071e3;color:var(--surface,#fff);}.ds-button-primary:hover:not(:disabled){background:#0062c8}.ds-button-primary:focus-visible{outline:3px solid #0071e3;outline-offset:4px}.ds-button-primary:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-primary{transition:none}}"
+    },
+    {
+      "name": "Button / secondary",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Существующий вариант кнопки; подпись примера не задаёт условия продукта.",
+      "html": "<button class=\"ds-button-secondary\">Назад</button>",
+      "css": ".ds-button-secondary{font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;border:1px solid transparent;border-radius:24px;font-size:14px;line-height:1.3;padding:12px 21px;font-weight:450;cursor:pointer;transition:background .16s ease,color .16s ease;background:#efeff2;color:var(--ink,#1d1d1f);}.ds-button-secondary:hover:not(:disabled){background:#e5e5ea}.ds-button-secondary:focus-visible{outline:3px solid #0071e3;outline-offset:4px}.ds-button-secondary:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-secondary{transition:none}}"
+    },
+    {
+      "name": "Button / text",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Существующий вариант кнопки; подпись примера не задаёт условия продукта.",
+      "html": "<button class=\"ds-button-text\">Изменить</button>",
+      "css": ".ds-button-text{font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;border:1px solid transparent;border-radius:24px;font-size:14px;line-height:1.3;padding:12px 21px;font-weight:450;cursor:pointer;transition:background .16s ease,color .16s ease;background:none;color:var(--accent,#0066cc);padding:10px 0;}.ds-button-text:hover{text-decoration:underline}.ds-button-text:focus-visible{outline:3px solid #0071e3;outline-offset:4px}.ds-button-text:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-text{transition:none}}"
+    },
+    {
+      "name": "Button / danger",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Существующий вариант кнопки; подпись примера не задаёт условия продукта.",
+      "html": "<button class=\"ds-button-danger\">Отклонить</button>",
+      "css": ".ds-button-danger{font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;border:1px solid transparent;border-radius:24px;font-size:14px;line-height:1.3;padding:12px 21px;font-weight:450;cursor:pointer;transition:background .16s ease,color .16s ease;background:var(--danger,#b42318);color:var(--surface,#fff);}.ds-button-danger:focus-visible{outline:3px solid #0071e3;outline-offset:4px}.ds-button-danger:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition:none}}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Подпись, поле и фокус из существующей формы.",
+      "html": "<label class=\"ds-field\">Название компании<input placeholder=\"Введите название\" /></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;font-size:14px;font-weight:500;color:var(--ink,#1d1d1f)}.ds-field input{font:inherit;font-weight:400;min-width:0;min-height:48px;padding:12px 14px;background:var(--surface,#fff);color:var(--ink,#1d1d1f);border:1px solid #c5c5cc;border-radius:11px;caret-color:var(--accent,#0066cc)}.ds-field input:focus{border-color:var(--accent,#0066cc);outline:0;box-shadow:0 0 0 3px #0071e31a}.ds-field input[aria-invalid=\"true\"]{border-color:var(--danger,#b42318)}.ds-field input:disabled{background:var(--bg,#f5f5f7)}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Текстовые вкладки с подчёркнутой активной страницей.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Навигация примера\"><a href=\"#overview\" aria-current=\"page\">Обзор</a><a href=\"#applications\">Мои заявки</a><a href=\"#help\">Помощь</a></nav>",
+      "css": ".ds-nav{display:flex;gap:28px;font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif}.ds-nav a{display:flex;align-items:center;font-size:13px;padding:6px 0 3px;color:var(--muted,#64646b);border-bottom:2px solid transparent;text-decoration:none;white-space:nowrap}.ds-nav a[aria-current]{color:var(--ink,#1d1d1f);border-color:var(--ink,#1d1d1f)}.ds-nav a:focus-visible{outline:3px solid #0071e3;outline-offset:4px}@media(max-width:760px){.ds-nav{width:100%;justify-content:space-between;gap:15px}.ds-nav a{font-size:12px;padding:12px 0 15px}}"
+    },
+    {
+      "name": "Status badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Информационный статус; не интерактивный контрол.",
+      "html": "<span class=\"ds-badge\"><span></span>На рассмотрении</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:6px;background:#edf5fd;color:#235da1;border-radius:20px;padding:5px 10px;font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;font-size:11px;line-height:1.4;white-space:nowrap}.ds-badge>span{width:5px;height:5px;border-radius:50%;background:currentColor}@media(max-width:760px){.ds-badge{font-size:10px}}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Статическая рабочая поверхность с заголовком и пояснением.",
+      "html": "<section class=\"ds-panel\"><h2>Текущая заявка</h2><p>Параметры и статус появятся здесь.</p></section>",
+      "css": ".ds-panel{background:var(--surface,#fff);color:var(--ink,#1d1d1f);border-radius:var(--radius,24px);padding:30px;font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif}.ds-panel h2{margin:0;font-size:21px;font-weight:600;line-height:1.3;letter-spacing:-.02em}.ds-panel p{margin:12px 0 0;font-size:15px;line-height:1.55;color:var(--muted,#64646b)}@media(max-width:760px){.ds-panel{padding:24px;border-radius:21px}.ds-panel p{font-size:14px}}"
+    },
+    {
+      "name": "Segments",
+      "kind": "custom",
+      "refersTo": "segment",
+      "description": "Группа вариантов с белым выбранным сегментом.",
+      "html": "<div class=\"ds-segments\" role=\"group\" aria-label=\"Вид кабинета\"><button aria-pressed=\"true\">Клиент</button><button aria-pressed=\"false\">Сотрудник</button></div>",
+      "css": ".ds-segments{display:flex;gap:3px;padding:4px;background:#e8e8ed;border-radius:12px}.ds-segments button{font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;border:0;background:none;color:var(--muted,#64646b);border-radius:9px;padding:9px 16px;font-size:13px;line-height:1.4;cursor:pointer}.ds-segments button[aria-pressed=\"true\"]{background:var(--surface,#fff);color:var(--ink,#1d1d1f);box-shadow:0 1px 4px #0000000d}.ds-segments button:hover{color:var(--ink,#1d1d1f)}.ds-segments button:focus-visible{outline:3px solid #0071e3;outline-offset:4px}"
+    },
+    {
+      "name": "Dialog surface",
+      "kind": "custom",
+      "refersTo": "modal",
+      "description": "Статический пример поверхности диалога; нативное открытие и закрытие реализованы в React-компоненте Modal.",
+      "html": "<section class=\"ds-modal\" aria-label=\"Пример диалога\"><div class=\"ds-modal-top\"><h2>Подтвердите действие</h2><button aria-label=\"Закрыть\" class=\"ds-close\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button></div><p>Проверьте параметры заявки.</p></section>",
+      "css": ".ds-modal{max-width:650px;padding:30px;border-radius:24px;background:var(--surface,#fff);color:var(--ink,#1d1d1f);font-family:-apple-system, BlinkMacSystemFont, \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif;box-shadow:0 22px 75px #00000024}.ds-modal-top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:18px}.ds-modal h2{margin:0;font-size:24px;font-weight:600;line-height:1.3;letter-spacing:-.02em}.ds-modal p{margin:0;font-size:15px;line-height:1.55}.ds-close{display:inline-flex;align-items:center;justify-content:center;min-width:36px;min-height:36px;padding:6px;border:0;border-radius:9px;background:transparent;color:inherit;cursor:pointer}.ds-close:hover{background:#f0f0f3}.ds-close:focus-visible{outline:3px solid #0071e3;outline-offset:4px}@media(max-width:760px){.ds-modal{padding:24px 21px;border-radius:20px}.ds-modal h2{font-size:22px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Вариант 4 / Apple",
+    "overview": "Утверждённый пользователем вариант 4 / Apple определяет визуальный язык «дело.»: светлая плоскость, белые рабочие поверхности, синий акцент и системная типографика. Композиция сдержанная: крупный заголовок даёт ориентир, а спокойные подписи и табличные числа помогают сравнить параметры.\n\nЭто фиксация готовой реализации из frontend/src/styles.css и компонентов кабинета. Цвета, типографика, интервалы и формы во frontmatter нормативны; сведения о движении, фокусе и адаптации дополнены в .impeccable/design.json. Фотографии и выдуманные иллюстрации не используются: существующие иконки Lucide выводятся как SVG.",
+    "keyCharacteristics": [
+      "Синий акцент на действиях, ссылках и текущем этапе.",
+      "Белые карточки на светло-сером фоне; тонированные сводки.",
+      "Системный шрифт, крупные суммы и табличные числа.",
+      "Статусы с текстом, видимый фокус и адаптивная компоновка."
+    ],
+    "rules": [
+      {
+        "name": "The Approved Direction Rule",
+        "body": "Сохранять выбранный вариант 4 / Apple: светлые поверхности, синий акцент и лаконичную системную типографику.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Рабочие панели остаются плоскими; объём нужен диалогу, выбранному сегменту и фокусу поля.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do сохранять выбранный вариант 4 / Apple и знак «дело.» с синей точкой.",
+      "Do использовать существующие компоненты и значения CSS; у основной кнопки скругление panel, у мобильной панели — panel-mobile.",
+      "Do показывать статус словами вместе с цветом; сохранять связь ошибки с полем и видимый клавиатурный фокус.",
+      "Do сохранять введённое при ошибке и выводить реальные серверные параметры, подписи и доступные действия.",
+      "Do использовать существующие SVG-иконки Lucide и учитывать prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't возвращать зелёное направление «Ателье» или подменять системный шрифт декоративным.",
+      "Don't добавлять декоративные тени каждой карточке, фотографии или выдуманные метрики.",
+      "Don't изображать рекомендацию решением банка или принятие условий выдачей денег.",
+      "Don't вставлять фиксированные ставки, платежи и лимиты вместо данных backend."
+    ]
+  }
+}

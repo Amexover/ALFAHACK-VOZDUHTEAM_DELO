@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "scope": "Browser on isolated PostgreSQL stack via SSH localhost:8081",
+  "cases": [
+    "valid-to-empty-term: old quote hidden",
+    "valid-to-below-minimum: old quote hidden",
+    "valid-again: quote restored",
+    "API stopped, changed amount: rate and payment hidden",
+    "API restarted, explicit retry: new amount quote restored"
+  ],
+  "failedVisible": "Ваш предварительный расчёт\n\n1 550 000 ₽\n\nСрок\n24 мес.\nСтавка\n—\nПлатёж в месяц\n—\nНе удалось выполнить действие. Повторите попытку.Попробовать снова\n\nУсловия предварительные и могут измениться после рассмотрения.\n\nООО «Маяк Трейд»\nОГРН 0000000000002",
+  "recoveredVisible": "Ваш предварительный расчёт\n\n1 550 000 ₽\n\nСрок\n24 мес.\nСтавка\n22 %\nПлатёж в месяц\n80 411 ₽\n\nУсловия предварительные и могут измениться после рассмотрения.\n\nООО «Маяк Трейд»\nОГРН 0000000000002"
+}

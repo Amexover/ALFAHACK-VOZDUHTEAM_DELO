@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ALREADY_SUBMITTED",
+    "message": "Заявка уже отправлена",
+    "fields": {}
+  }
+}

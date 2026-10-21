@@ -1,0 +1,9 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Проверьте введённые данные",
+    "fields": {
+      "business_profile.monthly_revenue": "Значение не может быть отрицательным"
+    }
+  }
+}
