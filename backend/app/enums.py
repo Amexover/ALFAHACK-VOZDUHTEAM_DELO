@@ -1,0 +1,59 @@
+from enum import StrEnum
+
+
+class Role(StrEnum):
+    CLIENT = "CLIENT"
+    EMPLOYEE = "EMPLOYEE"
+
+
+class LegalForm(StrEnum):
+    IP = "IP"
+    OOO = "OOO"
+
+
+class BorrowingMode(StrEnum):
+    NEW_CREDIT = "NEW_CREDIT"
+    REFINANCE = "REFINANCE"
+
+
+class ProductId(StrEnum):
+    WORKING_CAPITAL = "WORKING_CAPITAL"
+    EQUIPMENT = "EQUIPMENT"
+
+
+class Status(StrEnum):
+    DRAFT = "DRAFT"
+    IN_REVIEW = "IN_REVIEW"
+    NEED_INFO = "NEED_INFO"
+    APPROVED = "APPROVED"
+    COUNTER_OFFER = "COUNTER_OFFER"
+    REJECTED = "REJECTED"
+    COMPLETED = "COMPLETED"
+
+
+ACTIVE_STATUSES = {Status.DRAFT, Status.IN_REVIEW, Status.NEED_INFO, Status.APPROVED, Status.COUNTER_OFFER}
+
+
+class DecisionKind(StrEnum):
+    APPROVED = "APPROVED"
+    COUNTER_OFFER = "COUNTER_OFFER"
+    REJECTED = "REJECTED"
+
+
+class EventType(StrEnum):
+    SUBMITTED = "SUBMITTED"
+    INFO_REQUESTED = "INFO_REQUESTED"
+    INFO_PROVIDED = "INFO_PROVIDED"
+    APPROVED = "APPROVED"
+    COUNTER_OFFERED = "COUNTER_OFFERED"
+    REJECTED = "REJECTED"
+    SUPPLEMENTED = "SUPPLEMENTED"
+    ACCEPTED = "ACCEPTED"
+
+
+class NewsTag(StrEnum):
+    GENERAL = "GENERAL"
+    IP = "IP"
+    OOO = "OOO"
+    WORKING_CAPITAL = "WORKING_CAPITAL"
+    EQUIPMENT = "EQUIPMENT"

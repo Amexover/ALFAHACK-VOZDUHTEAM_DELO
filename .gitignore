@@ -1,0 +1,11 @@
+node_modules/
+frontend/dist/
+.env
+*.local
+backend-reference/
+.impeccable/review/
+frontend/qa-mobile.html
+*.tsbuildinfo
+__pycache__/
+.venv/
+frontend/qa-*.html
