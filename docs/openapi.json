@@ -1177,6 +1177,441 @@
           }
         }
       }
+    },
+    "/api/staff/me": {
+      "get": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Me",
+        "description": "«Кто я» внутри отдела: общая учётная запись плюс роль, права и нормативы этапов.",
+        "operationId": "me_api_staff_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/queue": {
+      "get": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Queue",
+        "description": "Очередь отдела со сроками по этапу.\n\nСроки считаются в момент запроса: ни планировщика, ни фоновых задач в проекте нет.\nЗаявки, попавшие в очередь впервые, здесь же принимаются в конвейер.",
+        "operationId": "queue_api_staff_queue_get",
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/QueueScope",
+              "default": "free"
+            }
+          },
+          {
+            "name": "stage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PipelineStage"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Stage"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/pipeline": {
+      "get": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Application Pipeline",
+        "description": "Внутренняя карточка конвейера и история обработки. Клиенту не отдаётся никогда.",
+        "operationId": "application_pipeline_api_staff_applications__application_id__pipeline_get",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/claim": {
+      "post": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Claim",
+        "description": "Взять свободную заявку в работу. Занятую не отдаём — в ответе видно, кто её держит.",
+        "operationId": "claim_api_staff_applications__application_id__claim_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/release": {
+      "post": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Release",
+        "description": "Вернуть свою заявку в очередь. Попадает во внутреннюю историю обработки.",
+        "operationId": "release_api_staff_applications__application_id__release_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/CommentIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/pass-to-underwriting": {
+      "post": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Pass To Underwriting",
+        "description": "Передать заявку на этап решения. Решение принимает андеррайтер, не верификатор.",
+        "operationId": "pass_to_underwriting_api_staff_applications__application_id__pass_to_underwriting_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/CommentIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/cancel-auto-reject": {
+      "post": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Cancel Auto Reject",
+        "description": "Отменить автоматический отказ с причиной и взять заявку на андеррайтинг.",
+        "operationId": "cancel_auto_reject_api_staff_applications__application_id__cancel_auto_reject_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelAutoRejectIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/scoring": {
+      "get": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Application Scoring",
+        "description": "Оценка заявки с разбором по правилам, версией набора и историей снимков.\n\nКлиенту не отдаётся ни в каком виде: рекомендация — совет сотруднику, а не решение.",
+        "operationId": "application_scoring_api_staff_applications__application_id__scoring_get",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/staff/applications/{application_id}/scoring/preview": {
+      "post": {
+        "tags": [
+          "staff-department"
+        ],
+        "summary": "Application Scoring Preview",
+        "description": "Как изменится оценка при другой сумме или сроке. Сохранённую заявку не меняет.",
+        "operationId": "application_scoring_preview_api_staff_applications__application_id__scoring_preview_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoringPreviewIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1222,6 +1657,22 @@
         ],
         "title": "BureauToggleIn"
       },
+      "CancelAutoRejectIn": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "title": "CancelAutoRejectIn"
+      },
       "ClientAnswerIn": {
         "properties": {
           "answer_text": {
@@ -1239,6 +1690,26 @@
           "answer_text"
         ],
         "title": "ClientAnswerIn"
+      },
+      "CommentIn": {
+        "properties": {
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CommentIn",
+        "description": "Необязательный комментарий сотрудника: попадает во внутреннюю историю обработки."
       },
       "CompanyIn": {
         "properties": {
@@ -1279,8 +1750,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 60,
-                "minimum": 1
+                "maximum": 60.0,
+                "minimum": 1.0
               },
               {
                 "type": "string"
@@ -1430,6 +1901,16 @@
         ],
         "title": "LoginIn"
       },
+      "PipelineStage": {
+        "type": "string",
+        "enum": [
+          "VERIFICATION",
+          "UNDERWRITING",
+          "DONE"
+        ],
+        "title": "PipelineStage",
+        "description": "Внутренний этап обработки заявки. С клиентскими статусами не связан напрямую."
+      },
       "ProductId": {
         "type": "string",
         "enum": [
@@ -1456,8 +1937,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 1200,
-                "minimum": 0
+                "maximum": 1200.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -1469,8 +1950,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 1000000000000,
-                "minimum": 0
+                "maximum": 1000000000000.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -1482,8 +1963,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 1000000000000,
-                "minimum": 0
+                "maximum": 1000000000000.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -1507,6 +1988,17 @@
         "additionalProperties": false,
         "type": "object",
         "title": "ProfilePatch"
+      },
+      "QueueScope": {
+        "type": "string",
+        "enum": [
+          "free",
+          "mine",
+          "overdue",
+          "all"
+        ],
+        "title": "QueueScope",
+        "description": "Срезы очереди: свободные, мои в работе, просроченные, все."
       },
       "QuoteIn": {
         "properties": {
@@ -1608,6 +2100,40 @@
           "message"
         ],
         "title": "RequestInfoIn"
+      },
+      "ScoringPreviewIn": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000000000000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "term_months": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1200.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Term Months"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ScoringPreviewIn",
+        "description": "Предварительный пересчёт оценки: «а если сумма или срок другие».\n\nОба поля необязательны — можно менять только одно. Заявку запрос не меняет."
       },
       "Status": {
         "type": "string",

@@ -1,21 +1,13 @@
 {
   "info": {
-    "name": "Delo synthetic MVP",
+    "name": "Дело — полная приёмка Т1–Т4 (изолированный стенд)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Cookies are retained by Postman. All data is synthetic. No reset operation included."
+    "description": "Запускать на пустой отдельной базе после python -m scripts.prepare_staff_fixture --isolated. Создаёт синтетические заявки; рабочая база не подходит. Все токены получаются при запуске."
   },
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost"
-    },
-    {
-      "key": "companyId",
-      "value": "1"
-    },
-    {
-      "key": "applicationId",
-      "value": "1"
+      "value": "http://127.0.0.1:8081"
     }
   ],
   "item": [
@@ -29,17 +21,22 @@
             "value": "application/json"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/health",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "health"
-          ]
+        "url": "{{baseUrl}}/api/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "name": "Config",
@@ -51,20 +48,25 @@
             "value": "application/json"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/config",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "config"
-          ]
+        "url": "{{baseUrl}}/api/config"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
-      "name": "Login Alexey",
+      "name": "Login alexey",
       "request": {
         "method": "POST",
         "header": [
@@ -73,27 +75,143 @@
             "value": "application/json"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/auth/login",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
-        },
+        "url": "{{baseUrl}}/api/auth/login",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"login\": \"alexey\",\n  \"password\": \"demo\"\n}",
+          "raw": "{\"login\": \"alexey\", \"password\": \"demo\"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('clientToken', data.token);",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login staff",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"login\": \"staff\", \"password\": \"demo\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('staffToken', data.token);",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login verifier",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"login\": \"verifier\", \"password\": \"demo\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('verifierToken', data.token);",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login underwriter",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"login\": \"underwriter\", \"password\": \"demo\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('underwriterToken', data.token);",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Companies",
@@ -103,19 +221,29 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/companies",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "companies"
-          ]
+        "url": "{{baseUrl}}/api/companies"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('companyId', data.items.find(c => c.legal_form === 'IP').id);",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "name": "Dashboard",
@@ -125,21 +253,28 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/companies/{{companyId}}/dashboard",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "companies",
-            "{{companyId}}",
-            "dashboard"
-          ]
+        "url": "{{baseUrl}}/api/companies/{{companyId}}/dashboard"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "name": "Quote",
@@ -149,62 +284,78 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/pricing/quote",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "pricing",
-            "quote"
-          ]
-        },
+        "url": "{{baseUrl}}/api/pricing/quote",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"company_id\": 1,\n  \"borrowing_mode\": \"NEW_CREDIT\",\n  \"amount\": 1500000,\n  \"term_months\": 24\n}",
+          "raw": "{\"company_id\": \"{{companyId}}\", \"borrowing_mode\": \"NEW_CREDIT\", \"amount\": 900000, \"term_months\": 18}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name": "Create draft",
+      "name": "Create draft for department",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/companies/{{companyId}}/applications",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "companies",
-            "{{companyId}}",
-            "applications"
-          ]
-        },
+        "url": "{{baseUrl}}/api/companies/{{companyId}}/applications",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"borrowing_mode\": \"NEW_CREDIT\"\n}",
+          "raw": "{\"borrowing_mode\": \"NEW_CREDIT\"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('applicationId', data.id);",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Save draft",
@@ -214,29 +365,37 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/applications/{{applicationId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "applications",
-            "{{applicationId}}"
-          ]
-        },
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"product_id\": \"EQUIPMENT\",\n  \"amount\": 1500000,\n  \"term_months\": 24,\n  \"business_profile\": {\n    \"industry\": \"Synthetic manufacturing\",\n    \"months_operating\": 36,\n    \"monthly_revenue\": 1800000,\n    \"monthly_debt_payments\": 120000,\n    \"purpose_details\": \"Synthetic equipment purchase\"\n  },\n  \"current_step\": \"review\"\n}",
+          "raw": "{\"product_id\": \"WORKING_CAPITAL\", \"amount\": 900000, \"term_months\": 18, \"business_profile\": {\"industry\": \"Торговля\", \"months_operating\": 36, \"monthly_revenue\": 1800000, \"monthly_debt_payments\": 120000, \"purpose_details\": \"Изолированная приёмка отдела\"}}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Submit",
@@ -246,30 +405,37 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/applications/{{applicationId}}/submit",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "applications",
-            "{{applicationId}}",
-            "submit"
-          ]
-        },
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}/submit",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"confirm_data\": true\n}",
+          "raw": "{\"confirm_data\": true}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Application",
@@ -279,75 +445,59 @@
           {
             "key": "Content-Type",
             "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/applications/{{applicationId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "applications",
-            "{{applicationId}}"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Login Staff",
-      "request": {
-        "method": "POST",
-        "header": [
+          },
           {
-            "key": "Content-Type",
-            "value": "application/json"
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/auth/login",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"login\": \"staff\",\n  \"password\": \"demo\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
           }
         }
-      }
+      ]
     },
     {
-      "name": "Queue",
+      "name": "Legacy queue",
       "request": {
         "method": "GET",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{staffToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications"
-          ]
+        "url": "{{baseUrl}}/api/staff/applications"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "name": "Staff card",
@@ -357,21 +507,217 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications/{{applicationId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications",
-            "{{applicationId}}"
-          ]
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
+    },
+    {
+      "name": "Department identity verifier",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/me"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Department identity underwriter",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/me"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Department queue",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/queue?scope=all"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "const auto = data.items.find(a => a.number === 'AUTO-T4-FIXTURE');",
+              "pm.test('isolated auto fixture exists', () => pm.expect(auto).to.be.an('object'));",
+              "if (auto) pm.collectionVariables.set('autoApplicationId', auto.id);",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pipeline card",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/pipeline"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claim by verifier",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/claim"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "My queue",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/queue?scope=mine"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Request information",
@@ -381,65 +727,290 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications/{{applicationId}}/request-info",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications",
-            "{{applicationId}}",
-            "request-info"
-          ]
-        },
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/request-info",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"message\": \"Please clarify revenue\",\n  \"requested_fields\": [\n    \"monthly_revenue\"\n  ]\n}",
+          "raw": "{\"message\": \"Подтвердите выручку\", \"requested_fields\": [\"monthly_revenue\"]}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name": "Counter offer",
+      "name": "Answer information request",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications/{{applicationId}}/counter-offer",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications",
-            "{{applicationId}}",
-            "counter-offer"
-          ]
-        },
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}/info-response",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"amount\": 1200000,\n  \"term_months\": 24,\n  \"rate\": 19.5,\n  \"comment\": \"Synthetic changed terms\"\n}",
+          "raw": "{\"answer_text\": \"Подтверждаем\", \"fields\": {\"monthly_revenue\": 2100000}}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pass to underwriting",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/pass-to-underwriting",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"comment\": \"Сведения проверены\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claim by underwriter",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/claim"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scoring",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/scoring"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preview",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/scoring/preview",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"amount\": 800000, \"term_months\": 24}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Release",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/release",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"comment\": \"Передача смене\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claim again",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/claim"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Approve",
@@ -449,31 +1020,300 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications/{{applicationId}}/approve",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications",
-            "{{applicationId}}",
-            "approve"
-          ]
-        },
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/approve",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"comment\": \"Synthetic approval after checks\"\n}",
+          "raw": "{\"comment\": \"Проверено\"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Accept",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}/accept"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create draft for legacy decisions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/companies/{{companyId}}/applications",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"borrowing_mode\": \"NEW_CREDIT\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('applicationId', data.id);",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Save draft",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"product_id\": \"WORKING_CAPITAL\", \"amount\": 900000, \"term_months\": 18, \"business_profile\": {\"industry\": \"Торговля\", \"months_operating\": 36, \"monthly_revenue\": 1800000, \"monthly_debt_payments\": 120000, \"purpose_details\": \"Изолированная приёмка отдела\"}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Submit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}/submit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"confirm_data\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Counter offer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{staffToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/counter-offer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"amount\": 800000, \"term_months\": 24, \"rate\": 19.5, \"comment\": \"Снижена сумма\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supplement",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/applications/{{applicationId}}/supplement",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"answer_text\": \"Дополняем сведения\", \"fields\": {\"monthly_revenue\": 2200000}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reject reasons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{staffToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/reject-reasons"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Reject",
@@ -483,97 +1323,262 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{staffToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/staff/applications/{{applicationId}}/reject",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "staff",
-            "applications",
-            "{{applicationId}}",
-            "reject"
-          ]
-        },
+        "url": "{{baseUrl}}/api/staff/applications/{{applicationId}}/reject",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"reason_code\": \"LOW_RATING\",\n  \"comment\": \"Synthetic rejection\"\n}",
+          "raw": "{\"reason_code\": \"HIGH_DEBT_LOAD\", \"comment\": \"Проверено\"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name": "Answer information request (login client first)",
+      "name": "Automatic rejection",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{autoApplicationId}}/pipeline"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.test('auto rejected', () => pm.expect(data.auto_rejected).to.equal(true));",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verifier cannot cancel",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{verifierToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/applications/{{applicationId}}/info-response",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "applications",
-            "{{applicationId}}",
-            "info-response"
-          ]
-        },
+        "url": "{{baseUrl}}/api/staff/applications/{{autoApplicationId}}/cancel-auto-reject",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"answer_text\": \"Updated revenue\",\n  \"fields\": {\n    \"monthly_revenue\": 2100000\n  }\n}",
+          "raw": "{\"reason\": \"Пересмотр\"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name": "Accept (login client first)",
+      "name": "Cancellation needs reason",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/applications/{{applicationId}}/accept",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "applications",
-            "{{applicationId}}",
-            "accept"
-          ]
-        },
+        "url": "{{baseUrl}}/api/staff/applications/{{autoApplicationId}}/cancel-auto-reject",
         "body": {
           "mode": "raw",
-          "raw": "{}",
+          "raw": "{\"reason\": \"   \"}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 422', () => pm.response.to.have.status(422));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cancel automatic rejection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{autoApplicationId}}/cancel-auto-reject",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"reason\": \"Подтверждение выручки проверено сотрудником\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.test('underwriting', () => pm.expect(data.pipeline.stage).to.equal('UNDERWRITING'));",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Client sees review",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/applications/{{autoApplicationId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "pm.test('review without decision', () => { pm.expect(data.status).to.equal('IN_REVIEW'); pm.expect(data.decision).to.equal(null); });",
+              "})();"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Manual decision after cancellation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{underwriterToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/staff/applications/{{autoApplicationId}}/reject",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"reason_code\": \"HIGH_DEBT_LOAD\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "News",
@@ -583,19 +1588,28 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/news?company_id={{companyId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "news?company_id={{companyId}}"
-          ]
+        "url": "{{baseUrl}}/api/news?company_id={{companyId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "name": "Support",
@@ -605,19 +1619,28 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{clientToken}}"
           }
         ],
-        "url": {
-          "raw": "{{baseUrl}}/api/support",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "support"
-          ]
+        "url": "{{baseUrl}}/api/support"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "(() => {",
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const data = pm.response.json();",
+              "})();"
+            ]
+          }
         }
-      }
+      ]
     }
   ]
 }

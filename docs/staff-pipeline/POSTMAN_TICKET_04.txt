@@ -1,0 +1,220 @@
+npm warn deprecated har-validator@5.1.5: this library is no longer supported
+npm warn deprecated uuid@3.4.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated @faker-js/faker@5.5.3: Please update to a newer version.
+newman
+
+Дело — полная приёмка Т1–Т4 (изолированный стенд)
+
+→ Health
+  GET http://frontend/api/health [200 OK, 578B, 189ms]
+  ✓  HTTP 200
+
+→ Config
+  GET http://frontend/api/config [200 OK, 5.02kB, 72ms]
+  ✓  HTTP 200
+
+→ Login alexey
+  POST http://frontend/api/auth/login [200 OK, 839B, 97ms]
+  ✓  HTTP 200
+
+→ Login staff
+  POST http://frontend/api/auth/login [200 OK, 830B, 41ms]
+  ✓  HTTP 200
+
+→ Login verifier
+  POST http://frontend/api/auth/login [200 OK, 841B, 46ms]
+  ✓  HTTP 200
+
+→ Login underwriter
+  POST http://frontend/api/auth/login [200 OK, 838B, 41ms]
+  ✓  HTTP 200
+
+→ Companies
+  GET http://frontend/api/companies [200 OK, 1.59kB, 18ms]
+  ✓  HTTP 200
+
+→ Dashboard
+  GET http://frontend/api/companies/1/dashboard [200 OK, 3.19kB, 27ms]
+  ✓  HTTP 200
+
+→ Quote
+  POST http://frontend/api/pricing/quote [200 OK, 806B, 19ms]
+  ✓  HTTP 200
+
+→ Create draft for department
+  POST http://frontend/api/companies/1/applications [201 Created, 2.2kB, 28ms]
+  ✓  HTTP 201
+
+→ Save draft
+  PATCH http://frontend/api/applications/3 [200 OK, 2.31kB, 26ms]
+  ✓  HTTP 200
+
+→ Submit
+  POST http://frontend/api/applications/3/submit [200 OK, 2.55kB, 21ms]
+  ✓  HTTP 200
+
+→ Application
+  GET http://frontend/api/applications/3 [200 OK, 2.55kB, 15ms]
+  ✓  HTTP 200
+
+→ Legacy queue
+  GET http://frontend/api/staff/applications [200 OK, 2.56kB, 54ms]
+  ✓  HTTP 200
+
+→ Staff card
+  GET http://frontend/api/staff/applications/3 [200 OK, 4.15kB, 27ms]
+  ✓  HTTP 200
+
+→ Department identity verifier
+  GET http://frontend/api/staff/me [200 OK, 1.43kB, 16ms]
+  ✓  HTTP 200
+
+→ Department identity underwriter
+  GET http://frontend/api/staff/me [200 OK, 1.45kB, 15ms]
+  ✓  HTTP 200
+
+→ Department queue
+  GET http://frontend/api/staff/queue?scope=all [200 OK, 3.65kB, 66ms]
+  ✓  HTTP 200
+  ✓  isolated auto fixture exists
+
+→ Pipeline card
+  GET http://frontend/api/staff/applications/3/pipeline [200 OK, 1.29kB, 55ms]
+  ✓  HTTP 200
+
+→ Claim by verifier
+  POST http://frontend/api/staff/applications/3/claim [200 OK, 1.64kB, 267ms]
+  ✓  HTTP 200
+
+→ My queue
+  GET http://frontend/api/staff/queue?scope=mine [200 OK, 1.71kB, 523ms]
+  ✓  HTTP 200
+
+→ Request information
+  POST http://frontend/api/staff/applications/3/request-info [200 OK, 4.89kB, 260ms]
+  ✓  HTTP 200
+
+→ Answer information request
+  POST http://frontend/api/applications/3/info-response [200 OK, 3.07kB, 80ms]
+  ✓  HTTP 200
+
+→ Pass to underwriting
+  POST http://frontend/api/staff/applications/3/pass-to-underwriting [200 OK, 2.38kB, 156ms]
+  ✓  HTTP 200
+
+→ Claim by underwriter
+  POST http://frontend/api/staff/applications/3/claim [200 OK, 2.75kB, 106ms]
+  ✓  HTTP 200
+
+→ Scoring
+  GET http://frontend/api/staff/applications/3/scoring [200 OK, 2.88kB, 29ms]
+  ✓  HTTP 200
+
+→ Preview
+  POST http://frontend/api/staff/applications/3/scoring/preview [200 OK, 2.46kB, 22ms]
+  ✓  HTTP 200
+
+→ Release
+  POST http://frontend/api/staff/applications/3/release [200 OK, 2.9kB, 44ms]
+  ✓  HTTP 200
+
+→ Claim again
+  POST http://frontend/api/staff/applications/3/claim [200 OK, 3.27kB, 21ms]
+  ✓  HTTP 200
+
+→ Approve
+  POST http://frontend/api/staff/applications/3/approve [200 OK, 6.08kB, 259ms]
+  ✓  HTTP 200
+
+→ Accept
+  POST http://frontend/api/applications/3/accept [200 OK, 3.99kB, 331ms]
+  ✓  HTTP 200
+
+→ Create draft for legacy decisions
+  POST http://frontend/api/companies/1/applications [201 Created, 2.2kB, 119ms]
+  ✓  HTTP 201
+
+→ Save draft
+  PATCH http://frontend/api/applications/4 [200 OK, 2.31kB, 39ms]
+  ✓  HTTP 200
+
+→ Submit
+  POST http://frontend/api/applications/4/submit [200 OK, 2.55kB, 29ms]
+  ✓  HTTP 200
+
+→ Counter offer
+  POST http://frontend/api/staff/applications/4/counter-offer [200 OK, 5.5kB, 56ms]
+  ✓  HTTP 200
+
+→ Supplement
+  POST http://frontend/api/applications/4/supplement [200 OK, 3.07kB, 28ms]
+  ✓  HTTP 200
+
+→ Reject reasons
+  GET http://frontend/api/staff/reject-reasons [200 OK, 1.24kB, 7ms]
+  ✓  HTTP 200
+
+→ Reject
+  POST http://frontend/api/staff/applications/4/reject [200 OK, 6.7kB, 39ms]
+  ✓  HTTP 200
+
+→ Automatic rejection
+  GET http://frontend/api/staff/applications/1/pipeline [200 OK, 1.71kB, 14ms]
+  ✓  HTTP 200
+  ✓  auto rejected
+
+→ Verifier cannot cancel
+  POST http://frontend/api/staff/applications/1/cancel-auto-reject [403 Forbidden, 711B, 12ms]
+  ✓  HTTP 403
+
+→ Cancellation needs reason
+  POST http://frontend/api/staff/applications/1/cancel-auto-reject [422 Unprocessable Entity, 767B, 25ms]
+  ✓  HTTP 422
+
+→ Cancel automatic rejection
+  POST http://frontend/api/staff/applications/1/cancel-auto-reject [200 OK, 2.64kB, 32ms]
+  ✓  HTTP 200
+  ✓  underwriting
+
+→ Client sees review
+  GET http://frontend/api/applications/1 [200 OK, 2.36kB, 22ms]
+  ✓  HTTP 200
+  ✓  review without decision
+
+→ Manual decision after cancellation
+  POST http://frontend/api/staff/applications/1/reject [200 OK, 6.04kB, 814ms]
+  ✓  HTTP 200
+
+→ News
+  GET http://frontend/api/news?company_id=1 [200 OK, 2.09kB, 198ms]
+  ✓  HTTP 200
+
+→ Support
+  GET http://frontend/api/support [200 OK, 2.6kB, 20ms]
+  ✓  HTTP 200
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                46 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                46 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                50 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 9.3s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 93.78kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 96ms [min: 7ms, max: 814ms, s.d.: 147ms] │
+└─────────────────────────────────────────────────────────────────┘
+npm notice
+npm notice New major version of npm available! 10.9.9 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

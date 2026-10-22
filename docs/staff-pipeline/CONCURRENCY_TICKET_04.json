@@ -1,0 +1,1 @@
+{"result": "PASS", "database": "PostgreSQL", "application_id": 2, "intake": [200, 200], "cancel": [200, 409], "decision": [200, 409], "active_decisions": 1, "snapshots": 3}

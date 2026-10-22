@@ -83,4 +83,60 @@ with TestClient(app) as c:
     c.post(f"/api/staff/applications/{other}/claim", headers=V)
     dump("pipeline_released", c.post(f"/api/staff/applications/{other}/release", headers=V,
                                      json={"comment": "Передаю смене"}))
+
+    # ---------- скоринг (тикет 03) ----------
+    all_items = c.get("/api/staff/queue", headers=U, params={"scope": "all"}).json()["items"]
+
+    def by_company(part):
+        return next(i["id"] for i in all_items if part in i["company_name"])
+
+    # «Мебель Прайм»: 9 месяцев работы под 1 500 000 ₽ — сработает правило срока работы бизнеса
+    short_history = by_company("Мебель Прайм")
+    dump("scoring_card", c.get(f"/api/staff/applications/{short_history}/scoring", headers=U))
+    dump("scoring_preview", c.post(f"/api/staff/applications/{short_history}/scoring/preview",
+                                   headers=U, json={"amount": 1_000_000}))
+    dump("scoring_preview_422", c.post(f"/api/staff/applications/{short_history}/scoring/preview",
+                                       headers=U, json={"amount": 10_000}))
+    dump("scoring_forbidden_403", c.get(f"/api/staff/applications/{short_history}/scoring", headers=A))
+
+    # заявка с вынесенным решением: оценка отдаётся снимком и задним числом не меняется
+    decided = by_company("ИП Сорокин")
+    c.post(f"/api/staff/applications/{decided}/claim", headers=V)
+    c.post(f"/api/staff/applications/{decided}/pass-to-underwriting", headers=V,
+           json={"comment": "Анкета полная, проверки пройдены"})
+    c.post(f"/api/staff/applications/{decided}/claim", headers=U)
+    c.post(f"/api/staff/applications/{decided}/approve", headers=U, json={"comment": "Условия подтверждены"})
+    dump("scoring_card_snapshot", c.get(f"/api/staff/applications/{decided}/scoring", headers=U))
+
+    # ---------- автоматический контур (тикет 04), только временная база генератора ----------
+    from app.core.db import SessionLocal
+    from app.models import Application, BureauRating
+    with SessionLocal() as db:
+        source = db.get(Application, fresh)
+        rating = db.get(BureauRating, source.company_id)
+        rating.score = 299
+        # Отдельная заявка: ранее принятые заявки политика задним числом не трогает.
+        auto = Application(company_id=source.company_id, borrowing_mode=source.borrowing_mode,
+                           product_id=source.product_id, amount=source.amount,
+                           term_months=source.term_months, preliminary_rate=source.preliminary_rate,
+                           preliminary_payment=source.preliminary_payment,
+                           business_profile={**source.business_profile, "monthly_debt_payments": 10_000_000},
+                           status="IN_REVIEW", submitted_at=source.submitted_at)
+        db.add(auto)
+        db.flush()
+        auto.number = f"D-2026-{auto.id:06d}"
+        auto_id = auto.id
+        db.commit()
+    dump("auto_rejected", c.get(f"/api/staff/applications/{auto_id}/pipeline", headers=U))
+    dump("cancel_auto_reject_422", c.post(f"/api/staff/applications/{auto_id}/cancel-auto-reject",
+                                         headers=U, json={"reason": "   "}))
+    dump("cancel_auto_reject_403", c.post(f"/api/staff/applications/{auto_id}/cancel-auto-reject",
+                                         headers=V, json={"reason": "Пересмотр"}))
+    # Убираем конфликтующую активную заявку фикстуры: в реальном API отмена вернёт 409.
+    with SessionLocal() as db:
+        source = db.get(Application, fresh)
+        source.status = "REJECTED"
+        db.commit()
+    dump("cancel_auto_reject", c.post(f"/api/staff/applications/{auto_id}/cancel-auto-reject",
+                                     headers=U, json={"reason": "Проверены подтверждения выручки"}))
 print(f"\nготово: {OUT}")

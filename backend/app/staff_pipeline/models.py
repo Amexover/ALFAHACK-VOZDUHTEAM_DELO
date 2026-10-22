@@ -93,20 +93,32 @@ class PipelineHistoryIsAppendOnly(RuntimeError):
     """Внутреннюю историю обработки нельзя править и удалять задним числом."""
 
 
+class ScoreSnapshotIsImmutable(RuntimeError):
+    """Снимок оценки нельзя переписать: иначе обоснование решения меняется задним числом."""
+
+
 @event.listens_for(Session, "before_flush")
 def _history_is_append_only(session: Session, flush_context, instances) -> None:
-    """Запись истории можно только добавить.
+    """Историю обработки и снимки оценки можно только добавлять.
 
     Не соглашение на словах, а запрет на уровне сессии: любая попытка изменить
-    или удалить запись истории обрывает транзакцию целиком.
+    или удалить такую запись обрывает транзакцию целиком.
     """
     for obj in session.dirty:
         if isinstance(obj, PipelineEvent) and session.is_modified(obj, include_collections=False):
             raise PipelineHistoryIsAppendOnly(
                 f"Запись истории обработки #{obj.id} изменять нельзя — история только пополняется"
             )
+        if isinstance(obj, ScoreSnapshot) and session.is_modified(obj, include_collections=False):
+            raise ScoreSnapshotIsImmutable(
+                f"Снимок оценки #{obj.id} изменять нельзя — оценка фиксируется один раз"
+            )
     for obj in session.deleted:
         if isinstance(obj, PipelineEvent):
             raise PipelineHistoryIsAppendOnly(
                 f"Запись истории обработки #{obj.id} удалять нельзя — история только пополняется"
+            )
+        if isinstance(obj, ScoreSnapshot):
+            raise ScoreSnapshotIsImmutable(
+                f"Снимок оценки #{obj.id} удалять нельзя — оценка фиксируется один раз"
             )

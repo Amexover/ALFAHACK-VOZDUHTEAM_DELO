@@ -8,8 +8,8 @@
   "is_mine": false,
   "claimable": false,
   "stage_limit_hours": 24,
-  "stage_entered_at": "2026-10-22T07:06:43.918484+00:00",
-  "deadline_at": "2026-10-23T07:06:43.918484+00:00",
+  "stage_entered_at": "2026-10-22T08:45:42.992783+00:00",
+  "deadline_at": "2026-10-23T08:45:42.992783+00:00",
   "time_left_minutes": 1439,
   "is_overdue": false,
   "waiting_for_client": false,
@@ -28,7 +28,7 @@
         "stage": "VERIFICATION",
         "status": "IN_REVIEW"
       },
-      "created_at": "2026-10-22T07:06:43.786756"
+      "created_at": "2026-10-22T08:45:42.907196"
     },
     {
       "id": 7,
@@ -40,7 +40,7 @@
       "payload": {
         "stage": "VERIFICATION"
       },
-      "created_at": "2026-10-22T07:06:43.888950"
+      "created_at": "2026-10-22T08:45:42.981304"
     },
     {
       "id": 8,
@@ -50,7 +50,7 @@
       "actor_staff_role": "VERIFIER",
       "comment": "Анкета полная, проверки пройдены",
       "payload": {},
-      "created_at": "2026-10-22T07:06:43.921293"
+      "created_at": "2026-10-22T08:45:42.993943"
     }
   ]
 }

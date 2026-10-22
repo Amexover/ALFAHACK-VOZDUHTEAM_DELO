@@ -1,0 +1,90 @@
+{
+  "application_id": 7,
+  "status": "IN_REVIEW",
+  "status_label": "На рассмотрении",
+  "pipeline": {
+    "application_id": 7,
+    "number": "D-2026-000007",
+    "status": "IN_REVIEW",
+    "stage": "UNDERWRITING",
+    "stage_label": "Принятие решения",
+    "assignee": {
+      "id": 5,
+      "full_name": "Сергей Гущин",
+      "staff_role": "UNDERWRITER"
+    },
+    "is_mine": true,
+    "claimable": false,
+    "stage_limit_hours": 24,
+    "stage_entered_at": "2026-10-22T08:45:43.170759+00:00",
+    "deadline_at": "2026-10-23T08:45:43.170759+00:00",
+    "time_left_minutes": 1439,
+    "is_overdue": false,
+    "waiting_for_client": false,
+    "waiting_minutes_total": 0,
+    "auto_rejected": false,
+    "available_actions": [
+      "release",
+      "request_info",
+      "approve",
+      "counter_offer",
+      "reject"
+    ],
+    "history": [
+      {
+        "id": 13,
+        "type": "ACCEPTED_TO_PIPELINE",
+        "label": "Заявка принята в обработку",
+        "actor_name": "Система",
+        "actor_staff_role": null,
+        "comment": null,
+        "payload": {
+          "stage": "VERIFICATION",
+          "status": "IN_REVIEW"
+        },
+        "created_at": "2026-10-22T08:45:43.147196"
+      },
+      {
+        "id": 14,
+        "type": "AUTO_REJECTED",
+        "label": "Автоматический отказ по правилам банка",
+        "actor_name": "Система",
+        "actor_staff_role": null,
+        "comment": null,
+        "payload": {
+          "decision_id": 2,
+          "policy_key": "LOW_RATING_AND_HIGH_DEBT_LOAD",
+          "policy_version": "AP-2026.10.1",
+          "score_snapshot_id": 9,
+          "intake_snapshot_id": 8,
+          "ruleset_version": "RS-2026.10.1",
+          "reason_code": "LOW_RATING"
+        },
+        "created_at": "2026-10-22T08:45:43.150099"
+      },
+      {
+        "id": 15,
+        "type": "AUTO_REJECT_CANCELLED",
+        "label": "Автоматический отказ отменён",
+        "actor_name": "Сергей Гущин",
+        "actor_staff_role": "UNDERWRITER",
+        "comment": "Проверены подтверждения выручки",
+        "payload": {
+          "decision_id": 2,
+          "auto_reject_event_id": 14,
+          "score_snapshot_id": 9
+        },
+        "created_at": "2026-10-22T08:45:43.172325"
+      }
+    ]
+  },
+  "reason": "Проверены подтверждения выручки",
+  "cancelled_decision": {
+    "id": 2,
+    "kind": "REJECTED",
+    "reject_reason_code": "LOW_RATING",
+    "created_by": "Правило банка AUTO_REJECT",
+    "created_at": "2026-10-22T08:45:43.149878",
+    "is_active": false
+  }
+}

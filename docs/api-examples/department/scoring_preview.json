@@ -1,0 +1,79 @@
+{
+  "application_id": 4,
+  "ruleset_version": "RS-2026.10.1",
+  "requested": {
+    "amount": 1500000,
+    "term_months": 12,
+    "rate": 27.0,
+    "monthly_payment": 144026,
+    "total_score": 15,
+    "recommendation": "REJECT",
+    "recommendation_label": "Отказать"
+  },
+  "preview": {
+    "amount": 1000000,
+    "term_months": 12,
+    "rate": 27.0,
+    "monthly_payment": 96017,
+    "total_score": 45,
+    "recommendation": "MANUAL",
+    "recommendation_label": "На усмотрение сотрудника"
+  },
+  "changed_rules": [
+    {
+      "key": "MONTHS_OPERATING",
+      "title": "Срок работы бизнеса под запрошенную сумму",
+      "before": -20,
+      "after": 10,
+      "details": "Бизнес работает 9 мес. — для суммы 1 000 000 ₽ этого достаточно"
+    }
+  ],
+  "rules": [
+    {
+      "key": "BUREAU_SCORE",
+      "title": "Рейтинг кредитного бюро",
+      "fired": false,
+      "contribution": -25,
+      "details": "Рейтинг 470 из 1000 — низкий",
+      "suggested_reject_reason_code": "LOW_RATING",
+      "suggested_reject_reason_text": "Кредитная история компании пока не позволяет одобрить заявку на запрошенных условиях."
+    },
+    {
+      "key": "DEBT_LOAD",
+      "title": "Долговая нагрузка к выручке",
+      "fired": true,
+      "contribution": 12,
+      "details": "13 % выручки уйдёт на платежи по долгам с учётом нового платежа",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    },
+    {
+      "key": "MONTHS_OPERATING",
+      "title": "Срок работы бизнеса под запрошенную сумму",
+      "fired": true,
+      "contribution": 10,
+      "details": "Бизнес работает 9 мес. — для суммы 1 000 000 ₽ этого достаточно",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    },
+    {
+      "key": "PROFILE_COMPLETENESS",
+      "title": "Полнота анкеты",
+      "fired": true,
+      "contribution": 10,
+      "details": "Все поля анкеты заполнены",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    },
+    {
+      "key": "AMOUNT_TO_REVENUE",
+      "title": "Запрошенная сумма к выручке",
+      "fired": true,
+      "contribution": 8,
+      "details": "Сумма равна 0.53 месячной выручки",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    }
+  ],
+  "note": "Предварительный расчёт. Сохранённая заявка не меняется."
+}

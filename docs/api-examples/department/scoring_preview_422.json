@@ -1,0 +1,9 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Проверьте введённые данные",
+    "fields": {
+      "amount": "Минимальная сумма — 100 000 ₽"
+    }
+  }
+}

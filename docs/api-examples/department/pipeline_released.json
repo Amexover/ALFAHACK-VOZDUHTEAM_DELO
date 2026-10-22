@@ -8,8 +8,8 @@
   "is_mine": false,
   "claimable": true,
   "stage_limit_hours": 4,
-  "stage_entered_at": "2026-10-21T11:06:43.594317+00:00",
-  "deadline_at": "2026-10-21T15:06:43.594317+00:00",
+  "stage_entered_at": "2026-10-21T12:45:42.791934+00:00",
+  "deadline_at": "2026-10-21T16:45:42.791934+00:00",
   "time_left_minutes": -961,
   "is_overdue": true,
   "waiting_for_client": false,
@@ -30,7 +30,7 @@
         "stage": "VERIFICATION",
         "status": "IN_REVIEW"
       },
-      "created_at": "2026-10-22T07:06:43.793260"
+      "created_at": "2026-10-22T08:45:42.941630"
     },
     {
       "id": 10,
@@ -42,7 +42,7 @@
       "payload": {
         "stage": "VERIFICATION"
       },
-      "created_at": "2026-10-22T07:06:44.070558"
+      "created_at": "2026-10-22T08:45:43.077112"
     },
     {
       "id": 11,
@@ -54,7 +54,7 @@
       "payload": {
         "stage": "VERIFICATION"
       },
-      "created_at": "2026-10-22T07:06:44.082099"
+      "created_at": "2026-10-22T08:45:43.085068"
     }
   ]
 }

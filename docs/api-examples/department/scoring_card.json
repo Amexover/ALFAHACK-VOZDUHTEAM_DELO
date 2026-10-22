@@ -1,0 +1,91 @@
+{
+  "application_id": 4,
+  "ruleset_version": "RS-2026.10.1",
+  "base_score": 30,
+  "total_score": 15,
+  "score_min": 0,
+  "score_max": 100,
+  "recommendation": "REJECT",
+  "recommendation_label": "Отказать",
+  "data_incomplete": false,
+  "rules": [
+    {
+      "key": "BUREAU_SCORE",
+      "title": "Рейтинг кредитного бюро",
+      "fired": false,
+      "contribution": -25,
+      "details": "Рейтинг 470 из 1000 — низкий",
+      "suggested_reject_reason_code": "LOW_RATING",
+      "suggested_reject_reason_text": "Кредитная история компании пока не позволяет одобрить заявку на запрошенных условиях."
+    },
+    {
+      "key": "DEBT_LOAD",
+      "title": "Долговая нагрузка к выручке",
+      "fired": true,
+      "contribution": 12,
+      "details": "15 % выручки уйдёт на платежи по долгам с учётом нового платежа",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    },
+    {
+      "key": "MONTHS_OPERATING",
+      "title": "Срок работы бизнеса под запрошенную сумму",
+      "fired": false,
+      "contribution": -20,
+      "details": "Бизнес работает 9 мес. при запрошенных 1 500 000 ₽ — для такой суммы нужно не меньше 12 мес.",
+      "suggested_reject_reason_code": "SHORT_HISTORY",
+      "suggested_reject_reason_text": "Бизнес работает недостаточно долго для запрошенной суммы."
+    },
+    {
+      "key": "PROFILE_COMPLETENESS",
+      "title": "Полнота анкеты",
+      "fired": true,
+      "contribution": 10,
+      "details": "Все поля анкеты заполнены",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    },
+    {
+      "key": "AMOUNT_TO_REVENUE",
+      "title": "Запрошенная сумма к выручке",
+      "fired": true,
+      "contribution": 8,
+      "details": "Сумма равна 0.79 месячной выручки",
+      "suggested_reject_reason_code": null,
+      "suggested_reject_reason_text": null
+    }
+  ],
+  "facts": {
+    "amount": 1500000,
+    "term_months": 12,
+    "rate": 27.0,
+    "monthly_payment": 144026,
+    "borrowing_mode": "NEW_CREDIT",
+    "amount_rub": "1 500 000 ₽",
+    "bureau_score": 470,
+    "rating_label": "низкий",
+    "monthly_revenue": 1900000,
+    "monthly_debt_payments": 150000,
+    "debt_load_pct": 15.475052631578947,
+    "debt_load_pct_text": "15",
+    "months_operating": 9,
+    "required_months": 12,
+    "months_operating_deficit": 3,
+    "profile_missing_count": 0,
+    "profile_missing_labels": "",
+    "amount_to_revenue": 0.7894736842105263
+  },
+  "evaluated_at": "2026-10-22T08:45:43.098903+00:00",
+  "is_snapshot": false,
+  "snapshot_reason": null,
+  "snapshots": [
+    {
+      "id": 4,
+      "reason": "ON_INTAKE",
+      "ruleset_version": "RS-2026.10.1",
+      "total_score": 15,
+      "recommendation": "REJECT",
+      "created_at": "2026-10-22T08:45:42.928718"
+    }
+  ]
+}

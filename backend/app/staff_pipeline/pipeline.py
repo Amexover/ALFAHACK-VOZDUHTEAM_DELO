@@ -14,21 +14,26 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.enums import Status
-from app.models import Application, utcnow
+from app.core.errors import conflict
+from app.enums import DecisionKind, Status
+from app.models import Application, Decision, utcnow
+from app.services import applications as svc
+from app.staff_pipeline import auto_policy, scoring
 from app.staff_pipeline.enums import (
     STAGE_LIMIT_HOURS,
     PipelineAction,
     PipelineEventType,
     PipelineStage,
+    SnapshotReason,
 )
 from app.staff_pipeline.models import ApplicationPipeline, PipelineEvent
 from app.staff_pipeline.security import DepartmentMember
 
 SYSTEM_ACTOR = "Система"
 
-# Статусы, при которых обработка в отделе закончена.
-TERMINAL_STATUSES = (Status.APPROVED, Status.COUNTER_OFFER, Status.REJECTED, Status.COMPLETED)
+# Статусы, при которых обработка в отделе закончена. Тот же перечень, по которому
+# скоринг считает оценку зафиксированной: решение вынесено — разбор больше не меняется.
+TERMINAL_STATUSES = scoring.DECIDED_STATUSES
 
 
 def as_utc(moment: datetime) -> datetime:
@@ -98,6 +103,11 @@ def _intake(db: Session, app: Application) -> ApplicationPipeline:
     add_event(db, app.id, PipelineEventType.ACCEPTED_TO_PIPELINE,
               payload={"stage": PipelineStage.VERIFICATION.value, "status": app.status})
     db.flush()
+    # Оценка фиксируется снимком уже на приёме: дальше правки правил её не меняют.
+    snapshot = scoring.ensure_intake_snapshot(db, app)
+    if (app.status == Status.IN_REVIEW and not app.decisions
+            and auto_policy.matches(scoring.snapshot_evaluation(snapshot))):
+        _auto_reject(db, app, pl, snapshot)
     return pl
 
 
@@ -163,7 +173,53 @@ def ensure_all(db: Session, apps: list[Application]) -> list[tuple[Application, 
 
 
 def submitted_applications(db: Session) -> list[Application]:
-    return list(db.scalars(select(Application).where(Application.status != Status.DRAFT)))
+    # Все пути приёма берут ту же блокировку, что решения: политика не может
+    # перезаписать решение сотрудника при одновременном открытии очереди.
+    return list(db.scalars(select(Application).where(Application.status != Status.DRAFT)
+                           .order_by(Application.id).with_for_update()))
+
+
+def _auto_reject(db: Session, app: Application, pl: ApplicationPipeline, intake) -> None:
+    now = utcnow()
+    decision = Decision(application_id=app.id, kind=DecisionKind.REJECTED,
+                        reject_reason_code=auto_policy.REJECT_REASON,
+                        created_by=auto_policy.DECISION_AUTHOR, is_active=True)
+    app.decisions.append(decision)
+    app.status = Status.REJECTED
+    app.decided_at = now
+    pl.auto_rejected = True
+    _enter_stage(pl, PipelineStage.DONE, now)
+    snapshot = scoring.take_snapshot(db, app, SnapshotReason.ON_DECISION)
+    add_event(db, app.id, PipelineEventType.AUTO_REJECTED,
+              payload={"decision_id": decision.id, "policy_key": auto_policy.POLICY_KEY,
+                       "policy_version": auto_policy.POLICY_VERSION,
+                       "score_snapshot_id": snapshot.id, "intake_snapshot_id": intake.id,
+                       "ruleset_version": snapshot.ruleset_version,
+                       "reason_code": auto_policy.REJECT_REASON})
+
+
+def cancel_auto_reject(db: Session, member: DepartmentMember, app: Application,
+                       pl: ApplicationPipeline, reason: str) -> Decision:
+    decision = svc.active_decision(app)
+    event = next((e for e in reversed(history(db, app.id))
+                  if e.type == PipelineEventType.AUTO_REJECTED), None)
+    if (decision is None or decision.kind != DecisionKind.REJECTED or event is None
+            or event.payload.get("decision_id") != decision.id):
+        raise conflict("NOT_AUTO_REJECTED", "Автоматическое решение уже не действует")
+    other = svc.active_application(db, app.company_id, app.borrowing_mode)
+    if other is not None and other.id != app.id:
+        raise conflict("ACTIVE_APPLICATION_EXISTS", "У компании уже есть активная заявка этого способа займа")
+    decision.is_active = False
+    app.status = Status.IN_REVIEW
+    app.decided_at = None
+    pl.auto_rejected = False
+    _enter_stage(pl, PipelineStage.UNDERWRITING, utcnow())
+    pl.assignee_id = member.user.id
+    pl.assigned_at = utcnow()
+    add_event(db, app.id, PipelineEventType.AUTO_REJECT_CANCELLED, member, comment=reason,
+              payload={"decision_id": decision.id, "auto_reject_event_id": event.id,
+                       "score_snapshot_id": event.payload["score_snapshot_id"]})
+    return decision
 
 
 # ---------- сроки ----------
@@ -249,7 +305,16 @@ def record_info_request(db: Session, member: DepartmentMember, app: Application,
 def record_decision(db: Session, member: DepartmentMember, app: Application, pl: ApplicationPipeline,
                     action: PipelineAction, comment: str | None = None,
                     payload: dict | None = None) -> None:
-    """Решение закрывает обработку. Исполнитель остаётся в записи — видно, кто решил."""
+    """Решение закрывает обработку. Исполнитель остаётся в записи — видно, кто решил.
+
+    Здесь же снимается второй снимок оценки: по какому разбору вынесено решение.
+    Снимок живёт в одной транзакции с самим решением — если решение не пройдёт,
+    снимка не останется.
+    """
     _enter_stage(pl, PipelineStage.DONE, utcnow())
+    snapshot = scoring.take_snapshot(db, app, SnapshotReason.ON_DECISION)
     add_event(db, app.id, PipelineEventType.DECISION_MADE, member, comment=comment,
-              payload={"action": action.value, **(payload or {})})
+              payload={"action": action.value, "score_snapshot_id": snapshot.id,
+                       "total_score": snapshot.total_score,
+                       "recommendation": snapshot.recommendation,
+                       "ruleset_version": snapshot.ruleset_version, **(payload or {})})

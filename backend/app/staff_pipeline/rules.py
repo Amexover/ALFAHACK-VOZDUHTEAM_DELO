@@ -95,6 +95,13 @@ def check(member: DepartmentMember, app: Application, pl: ApplicationPipeline,
     stage = PipelineStage(pl.stage)
     status = Status(app.status)
 
+    if action == PipelineAction.CANCEL_AUTO_REJECT:
+        if member.staff_role != StaffRole.UNDERWRITER:
+            return _stage_forbidden("Отменить автоматический отказ может только андеррайтер")
+        if not pl.auto_rejected or status != Status.REJECTED:
+            return conflict("NOT_AUTO_REJECTED", "У заявки нет действующего автоматического отказа")
+        return _held_by_other(member, pl)
+
     if error := _held_by_other(member, pl):
         return error
 

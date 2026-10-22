@@ -1,0 +1,6 @@
+{
+  "base": "http://frontend",
+  "checks": 34,
+  "result": "PASS",
+  "scope": "Read-only HTTP smoke + synthetic demo login; no applications created or reset"
+}

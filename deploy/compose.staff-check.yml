@@ -1,0 +1,9 @@
+# Только отдельный проект приёмки: docker compose -p delo-staff-t4 -f docker-compose.yml -f deploy/compose.staff-check.yml ...
+services:
+  api:
+    environment:
+      DEPARTMENT_DEMO_QUEUE: "false"
+      DEMO_TOOLS_ENABLED: "false"
+  frontend:
+    ports: !override
+      - "127.0.0.1:8081:80"

@@ -49,7 +49,7 @@ def queue_viewer(member: DepartmentMember = Depends(current_member),
 def card_viewer(application_id: int, member: DepartmentMember = Depends(current_member),
                 db: Session = Depends(get_db)) -> User:
     """Карточка заявки: открытие карточки тоже принимает заявку в конвейер."""
-    app = svc.get_for_staff(db, application_id)
+    app = svc.get_for_staff(db, application_id, lock=True)
     pipeline.ensure(db, app)
     db.commit()
     return member.user

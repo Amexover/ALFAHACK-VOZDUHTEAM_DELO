@@ -1,0 +1,54 @@
+{
+  "application_id": 7,
+  "number": "D-2026-000007",
+  "status": "REJECTED",
+  "stage": "DONE",
+  "stage_label": "Обработка завершена",
+  "assignee": null,
+  "is_mine": false,
+  "claimable": false,
+  "stage_limit_hours": null,
+  "stage_entered_at": "2026-10-22T08:45:43.148404+00:00",
+  "deadline_at": null,
+  "time_left_minutes": null,
+  "is_overdue": false,
+  "waiting_for_client": false,
+  "waiting_minutes_total": 0,
+  "auto_rejected": true,
+  "available_actions": [
+    "cancel_auto_reject"
+  ],
+  "history": [
+    {
+      "id": 13,
+      "type": "ACCEPTED_TO_PIPELINE",
+      "label": "Заявка принята в обработку",
+      "actor_name": "Система",
+      "actor_staff_role": null,
+      "comment": null,
+      "payload": {
+        "stage": "VERIFICATION",
+        "status": "IN_REVIEW"
+      },
+      "created_at": "2026-10-22T08:45:43.147196"
+    },
+    {
+      "id": 14,
+      "type": "AUTO_REJECTED",
+      "label": "Автоматический отказ по правилам банка",
+      "actor_name": "Система",
+      "actor_staff_role": null,
+      "comment": null,
+      "payload": {
+        "decision_id": 2,
+        "policy_key": "LOW_RATING_AND_HIGH_DEBT_LOAD",
+        "policy_version": "AP-2026.10.1",
+        "score_snapshot_id": 9,
+        "intake_snapshot_id": 8,
+        "ruleset_version": "RS-2026.10.1",
+        "reason_code": "LOW_RATING"
+      },
+      "created_at": "2026-10-22T08:45:43.150099"
+    }
+  ]
+}

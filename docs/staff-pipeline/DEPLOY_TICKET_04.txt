@@ -1,0 +1,31 @@
+CANDIDATE_HASHES_PASS 1d7b68f9ada3d138e1dd8282f1ba21447cf937855243e9094467e99d8262c208
+ Container delo-api-1  Stopping
+ Container delo-api-1  Stopped
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 20261022_01, Отдел сотрудников: роли внутри отдела, конвейер, внутренняя история, снимки оценки
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+{"result": "PASS", "preserved_rows": 26, "tables": 9}
+ Container delo-api-1  Recreate
+ Container delo-api-1  Recreated
+ Container delo-api-1  Starting
+ Container delo-api-1  Started
+curl: (56) Recv failure: Connection reset by peer
+curl: (56) Recv failure: Connection reset by peer
+curl: (56) Recv failure: Connection reset by peer
+{"status":"ok","bureau_available":true} Container delo-frontend-1  Restarting
+ Container delo-frontend-1  Started
+{"result": "PASS", "preserved_rows": 26, "tables": 9}
+{"result": "PASS", "phase": "verification-underwriting-decision-acceptance", "checks": 22, "application_id": 12, "status": "COMPLETED"}
+ Container delo-api-1  Restarting
+ Container delo-api-1  Started
+curl: (56) Recv failure: Connection reset by peer
+curl: (52) Empty reply from server
+curl: (52) Empty reply from server
+{"status":"ok","bureau_available":true}{"result": "PASS", "phase": "after-api-restart", "checks": 8, "application_id": 12, "status": "COMPLETED"}
+NAME              IMAGE                COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+delo-api-1        delo-api             "uvicorn app.main:ap…"   api        17 seconds ago   Up 5 seconds              127.0.0.1:8000->8000/tcp
+delo-db-1         postgres:16-alpine   "docker-entrypoint.s…"   db         20 hours ago     Up 20 hours (healthy)     5432/tcp
+delo-frontend-1   delo-frontend        "/docker-entrypoint.…"   frontend   19 hours ago     Up 12 seconds (healthy)   0.0.0.0:80->80/tcp, [::]:80->80/tcp
+STAFF_RELEASE_SWITCH_PASS delo-staff-2026-10-22-v1

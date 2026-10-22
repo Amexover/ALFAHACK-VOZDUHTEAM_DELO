@@ -2,9 +2,9 @@
 
 from sqlalchemy.orm import Session
 
-from app.models import Application
+from app.models import Application, utcnow
 from app.services import applications as svc
-from app.staff_pipeline import pipeline, rules
+from app.staff_pipeline import pipeline, rules, scoring
 from app.staff_pipeline.enums import (
     PIPELINE_EVENT_LABELS,
     PIPELINE_STAGE_LABELS,
@@ -15,7 +15,7 @@ from app.staff_pipeline.enums import (
     PipelineStage,
     StaffRole,
 )
-from app.staff_pipeline.models import ApplicationPipeline, PipelineEvent
+from app.staff_pipeline.models import ApplicationPipeline, PipelineEvent, ScoreSnapshot
 from app.staff_pipeline.security import DepartmentMember, staff_role_of
 
 NO_ROLE_LABEL = "Сотрудник банка"
@@ -138,4 +138,91 @@ def pipeline_view(db: Session, member: DepartmentMember, app: Application,
         **pipeline_block(db, member, app, pl),
         "available_actions": rules.allowed(member, app, pl),
         "history": [history_event_view(e) for e in pipeline.history(db, app.id)],
+    }
+
+
+# ---------- скоринг ----------
+
+PREVIEW_NOTE = "Предварительный расчёт. Сохранённая заявка не меняется."
+
+
+def snapshot_view(snapshot: ScoreSnapshot) -> dict:
+    """Строка истории снимков: когда и почему оценка была зафиксирована."""
+    return {
+        "id": snapshot.id,
+        "reason": snapshot.reason,
+        "ruleset_version": snapshot.ruleset_version,
+        "total_score": snapshot.total_score,
+        "recommendation": snapshot.recommendation,
+        "created_at": snapshot.created_at,
+    }
+
+
+def scoring_view(db: Session, app: Application) -> dict:
+    """Оценка заявки с разбором по правилам.
+
+    Заявка в работе — живой расчёт по текущим сведениям. Решение вынесено — снимок,
+    зафиксированный в момент решения: разбор задним числом не меняется, даже если
+    набор правил потом обновили.
+    """
+    frozen = scoring.frozen_snapshot(db, app)
+    body = scoring.snapshot_evaluation(frozen) if frozen else scoring.evaluate(db, app)
+    return {
+        **body,
+        "application_id": app.id,
+        "evaluated_at": scoring.evaluated_at(frozen, utcnow()),
+        "is_snapshot": frozen is not None,
+        "snapshot_reason": frozen.reason if frozen else None,
+        "snapshots": [snapshot_view(s) for s in scoring.snapshots(db, app.id)],
+    }
+
+
+def _conditions(evaluation: dict) -> dict:
+    known = evaluation["facts"]
+    return {
+        "amount": known["amount"],
+        "term_months": known["term_months"],
+        "rate": known["rate"],
+        "monthly_payment": known["monthly_payment"],
+        "total_score": evaluation["total_score"],
+        "recommendation": evaluation["recommendation"],
+        "recommendation_label": evaluation["recommendation_label"],
+    }
+
+
+def changed_rules(before: dict, after: dict) -> list[dict]:
+    """Какие правила изменили вклад при других условиях — это и есть объяснение «почему»."""
+    was = {r["key"]: r for r in before["rules"]}
+    changed = []
+    for rule in after["rules"]:
+        old = was.get(rule["key"])
+        if old is None or old["contribution"] == rule["contribution"]:
+            continue
+        changed.append({
+            "key": rule["key"],
+            "title": rule["title"],
+            "before": old["contribution"],
+            "after": rule["contribution"],
+            "details": rule["details"],
+        })
+    return changed
+
+
+def scoring_preview_view(db: Session, app: Application, amount: int | None,
+                         term_months: int | None) -> dict:
+    """Пересчёт «а если сумма или срок другие». Ничего не сохраняет.
+
+    Прямая поддержка решения «предложить другие условия» вместо отказа: видно, какие
+    правила перестают работать против заявки при меньшей сумме или большем сроке.
+    """
+    requested = scoring.evaluate(db, app)
+    preview = scoring.evaluate(db, app, amount=amount, term_months=term_months)
+    return {
+        "application_id": app.id,
+        "ruleset_version": preview["ruleset_version"],
+        "requested": _conditions(requested),
+        "preview": _conditions(preview),
+        "changed_rules": changed_rules(requested, preview),
+        "rules": preview["rules"],
+        "note": PREVIEW_NOTE,
     }

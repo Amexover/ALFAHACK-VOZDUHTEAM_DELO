@@ -55,6 +55,7 @@ class PipelineAction(StrEnum):
     APPROVE = "approve"
     COUNTER_OFFER = "counter_offer"
     REJECT = "reject"
+    CANCEL_AUTO_REJECT = "cancel_auto_reject"
 
 
 class SnapshotReason(StrEnum):
@@ -96,6 +97,7 @@ PIPELINE_ACTION_LABELS = {
     PipelineAction.APPROVE: "Одобрить",
     PipelineAction.COUNTER_OFFER: "Предложить другие условия",
     PipelineAction.REJECT: "Отказать",
+    PipelineAction.CANCEL_AUTO_REJECT: "Отменить автоматический отказ",
 }
 
 # Решения — только андеррайтера; верификатор передаёт заявку дальше.
