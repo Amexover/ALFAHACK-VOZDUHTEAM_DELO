@@ -1,0 +1,8 @@
+{
+  "archive_source_hashes": "PASS",
+  "lf_crlf_identity": "PASS",
+  "deployed_backend_sources": "PASS",
+  "checked_backend_files": 66,
+  "source_sha256": "43f62c60e23204bb9b8bdfd8559a241243ce7e1c0e6010e15ab04fddc36987c1",
+  "normalization": "UTF-8 text line endings: LF"
+}
