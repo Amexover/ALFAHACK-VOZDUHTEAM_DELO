@@ -7,11 +7,13 @@ from app.api import applications, auth, companies, meta, pricing, staff
 from app.core.errors import install_error_handlers
 from app.core.settings import settings
 from app.seed import init_db
+from app.staff_pipeline import install_staff_pipeline, seed_department_on_startup
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
+    seed_department_on_startup()
     yield
 
 
@@ -34,3 +36,4 @@ install_error_handlers(app)
 
 for module in (meta, auth, companies, pricing, applications, staff):
     app.include_router(module.router, prefix="/api")
+install_staff_pipeline(app)

@@ -1,0 +1,52 @@
+{
+  "user": {
+    "id": 5,
+    "login": "underwriter",
+    "full_name": "Сергей Гущин",
+    "first_name": "Сергей",
+    "role": "EMPLOYEE"
+  },
+  "department": {
+    "staff_role": "UNDERWRITER",
+    "staff_role_label": "Андеррайтер",
+    "is_verifier": false,
+    "is_underwriter": true,
+    "pipeline_enforced": true,
+    "permissions": [
+      "queue:view",
+      "application:claim",
+      "application:release",
+      "info:request",
+      "application:decide",
+      "application:cancel_auto_reject"
+    ],
+    "stage_norms": [
+      {
+        "stage": "VERIFICATION",
+        "stage_label": "Проверка сведений",
+        "limit_hours": 4,
+        "owner_staff_role": "VERIFIER"
+      },
+      {
+        "stage": "UNDERWRITING",
+        "stage_label": "Принятие решения",
+        "limit_hours": 24,
+        "owner_staff_role": "UNDERWRITER"
+      }
+    ],
+    "stages": [
+      {
+        "stage": "VERIFICATION",
+        "stage_label": "Проверка сведений"
+      },
+      {
+        "stage": "UNDERWRITING",
+        "stage_label": "Принятие решения"
+      },
+      {
+        "stage": "DONE",
+        "stage_label": "Обработка завершена"
+      }
+    ]
+  }
+}

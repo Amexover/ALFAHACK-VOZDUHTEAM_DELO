@@ -1,0 +1,58 @@
+{
+  "application_id": 1,
+  "ruleset_version": "RS-2026.10.1",
+  "total_score": 58,
+  "recommendation": "MANUAL",
+  "recommendation_label": "На усмотрение сотрудника",
+  "evaluated_at": "2026-10-22T05:10:00Z",
+  "is_snapshot": true,
+  "snapshot_reason": "ON_INTAKE",
+  "rules": [
+    {
+      "key": "BUREAU_SCORE",
+      "title": "Рейтинг кредитного бюро",
+      "fired": true,
+      "contribution": 18,
+      "details": "Рейтинг 690 из 1000 — средний"
+    },
+    {
+      "key": "DEBT_LOAD",
+      "title": "Долговая нагрузка к выручке",
+      "fired": true,
+      "contribution": 12,
+      "details": "27 % выручки уйдёт на платежи по долгам"
+    },
+    {
+      "key": "MONTHS_OPERATING",
+      "title": "Срок работы бизнеса под запрошенную сумму",
+      "fired": false,
+      "contribution": -20,
+      "details": "Бизнес работает 9 месяцев при запрошенных 1 500 000 ₽",
+      "suggested_reject_reason_code": "SHORT_HISTORY"
+    },
+    {
+      "key": "PROFILE_COMPLETENESS",
+      "title": "Полнота анкеты",
+      "fired": true,
+      "contribution": 10,
+      "details": "Все поля заполнены"
+    },
+    {
+      "key": "AMOUNT_TO_REVENUE",
+      "title": "Запрошенная сумма к выручке",
+      "fired": true,
+      "contribution": 8,
+      "details": "Сумма равна 0.5 месячной выручки"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": 1,
+      "reason": "ON_INTAKE",
+      "ruleset_version": "RS-2026.10.1",
+      "total_score": 58,
+      "recommendation": "MANUAL",
+      "created_at": "2026-10-22T02:05:00Z"
+    }
+  ]
+}

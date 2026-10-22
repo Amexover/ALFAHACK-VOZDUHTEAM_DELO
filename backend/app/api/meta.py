@@ -77,7 +77,10 @@ def _demo_guard():
 @router.post("/demo/reset", tags=["demo"], dependencies=[Depends(_demo_guard)])
 def demo_reset():
     """Сбрасывает базу к исходным демонстрационным данным."""
+    from app.staff_pipeline.seed import seed_department_on_startup
+
     init_db(reset=True)
+    seed_department_on_startup()
     bureau.set_available(settings.bureau_available)
     return {"ok": True}
 

@@ -1,0 +1,28 @@
+Прогон руками на живом сервере (тикет 01)
+
+Дата: 2026-10-22
+Запуск: cd backend && python -m uvicorn app.main:app
+База: локальная SQLite (на сервере — PostgreSQL, прогон в тикете 04)
+
+1. Старт на пустой базе
+   Application startup complete — поднялось одной командой, миграции вручную не требовались
+   (схему создаёт create_all, как и раньше), сид отдела отработал при старте.
+
+2. POST /api/auth/login  verifier / demo            -> 200, токен получен
+   GET  /api/staff/me    (верификатор)              -> 200
+        verifier | VERIFIER | Верификатор | прав: 5
+   GET  /api/staff/applications                     -> 200
+        6 заявок; {IN_REVIEW: 5, NEED_INFO: 1, остальные 0}
+
+3. GET /api/staff/me от клиента (pavel)             -> 403 FORBIDDEN
+   GET /api/staff/me без входа                      -> 401 UNAUTHORIZED
+
+4. Повторный старт на ТОЙ ЖЕ базе                   -> Application startup complete
+   GET /api/staff/applications                      -> 6 заявок (не 12)
+   Счётчики таблиц после второго старта:
+        users 7            (3 прежних + 2 сотрудника отдела + 2 клиента демо-очереди)
+        companies 9        (4 прежних + 5 наших)
+        applications 6
+        staff_profiles 3   (Ирина Котова, Сергей Гущин, Наталья Белова)
+        application_events 7
+   Сид отдела при повторном старте ничего не продублировал.

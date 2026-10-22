@@ -1,0 +1,14 @@
+записано ручек до наших работ: 27
+описание совпадает: 27
+пропали: —
+изменились: —
+добавлено наших ручек: 6
+  + /api/staff/applications/{application_id}/claim
+  + /api/staff/applications/{application_id}/pass-to-underwriting
+  + /api/staff/applications/{application_id}/pipeline
+  + /api/staff/applications/{application_id}/release
+  + /api/staff/me
+  + /api/staff/queue
+схем записано: 19, изменилось: —
+
+ПРОВЕРКА ПРОЙДЕНА: существующие ручки описаны ровно как раньше, добавлены только наши.

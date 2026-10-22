@@ -1,0 +1,56 @@
+Прогон тестов после тикета 01
+
+Дата: 2026-10-22
+Ветка: feat/staff-pipeline
+Команда: cd backend && python -m pytest -v
+Тесты второго разработчика: 32, без правок с нашей стороны
+Тесты отдела (наши): 12
+
+----------------------------------------------------------------------
+============================= test session starts =============================
+tests/test_access.py::test_login_and_roles PASSED                        [  2%]
+tests/test_access.py::test_cookie_session PASSED                         [  4%]
+tests/test_access.py::test_company_isolation PASSED                      [  6%]
+tests/test_access.py::test_foreign_loan_cannot_be_selected PASSED        [  9%]
+tests/test_access.py::test_add_company PASSED                            [ 11%]
+tests/test_access.py::test_dashboard PASSED                              [ 13%]
+tests/test_access.py::test_rating_unavailable PASSED                     [ 15%]
+tests/test_department.py::test_verifier_and_underwriter_can_log_in_and_know_their_role PASSED [ 18%]
+tests/test_department.py::test_existing_staff_account_becomes_underwriter_and_keeps_rights PASSED [ 20%]
+tests/test_department.py::test_department_contract_for_frontend PASSED   [ 22%]
+tests/test_department.py::test_department_me_is_closed_for_clients_and_guests PASSED [ 25%]
+tests/test_department.py::test_staff_without_profile_does_not_break_the_endpoint PASSED [ 27%]
+tests/test_department.py::test_common_roles_are_unchanged PASSED         [ 29%]
+tests/test_department.py::test_client_still_sees_bank_instead_of_staff_name PASSED [ 31%]
+tests/test_department.py::test_department_seed_does_not_touch_the_existing_seed PASSED [ 34%]
+tests/test_department.py::test_department_seed_is_idempotent PASSED      [ 36%]
+tests/test_department.py::test_department_seed_creates_staff_and_queue PASSED [ 38%]
+tests/test_department.py::test_queue_returns_department_applications PASSED [ 40%]
+tests/test_department.py::test_department_queue_is_disabled_under_pytest PASSED [ 43%]
+tests/test_flow.py::test_draft_persists_and_recalculates PASSED          [ 45%]
+tests/test_flow.py::test_dashboard_news_follow_product PASSED            [ 47%]
+tests/test_flow.py::test_submit_validation_and_double_submit PASSED      [ 50%]
+tests/test_flow.py::test_full_new_credit_path PASSED                     [ 52%]
+tests/test_flow.py::test_approve_and_reject PASSED                       [ 54%]
+tests/test_flow.py::test_supplement_returns_to_review PASSED             [ 56%]
+tests/test_flow.py::test_refinance_path PASSED                           [ 59%]
+tests/test_flow.py::test_staff_queue PASSED                              [ 61%]
+tests/test_pricing.py::test_rate[1000-12-NEW_CREDIT-18] PASSED           [ 63%]
+tests/test_pricing.py::test_rate[750-12-NEW_CREDIT-18] PASSED            [ 65%]
+tests/test_pricing.py::test_rate[749-12-NEW_CREDIT-22] PASSED            [ 68%]
+tests/test_pricing.py::test_rate[500-12-NEW_CREDIT-22] PASSED            [ 70%]
+tests/test_pricing.py::test_rate[499-12-NEW_CREDIT-27] PASSED            [ 72%]
+tests/test_pricing.py::test_rate[0-12-NEW_CREDIT-27] PASSED              [ 75%]
+tests/test_pricing.py::test_rate[820-24-NEW_CREDIT-18] PASSED            [ 77%]
+tests/test_pricing.py::test_rate[820-25-NEW_CREDIT-20] PASSED            [ 79%]
+tests/test_pricing.py::test_rate[420-36-NEW_CREDIT-29] PASSED            [ 81%]
+tests/test_pricing.py::test_rate[None-12-NEW_CREDIT-24] PASSED           [ 84%]
+tests/test_pricing.py::test_rate[820-12-REFINANCE-17] PASSED             [ 86%]
+tests/test_pricing.py::test_rate[420-30-REFINANCE-28] PASSED             [ 88%]
+tests/test_pricing.py::test_annuity PASSED                               [ 90%]
+tests/test_pricing.py::test_amount_limits PASSED                         [ 93%]
+tests/test_pricing.py::test_quote_endpoint PASSED                        [ 95%]
+tests/test_pricing.py::test_quote_refinance_comparison PASSED            [ 97%]
+tests/test_pricing.py::test_quote_without_rating PASSED                  [100%]
+============================== warnings summary ===============================
+======================= 44 passed, 1 warning in 23.28s ========================

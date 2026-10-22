@@ -1,0 +1,78 @@
+{
+  "application_id": 1,
+  "number": "D-2026-000001",
+  "status": "IN_REVIEW",
+  "stage": "UNDERWRITING",
+  "stage_label": "Принятие решения",
+  "assignee": {
+    "id": 5,
+    "full_name": "Сергей Гущин",
+    "staff_role": "UNDERWRITER"
+  },
+  "is_mine": true,
+  "claimable": false,
+  "stage_limit_hours": 24,
+  "stage_entered_at": "2026-10-22T07:06:43.918484+00:00",
+  "deadline_at": "2026-10-23T07:06:43.918484+00:00",
+  "time_left_minutes": 1439,
+  "is_overdue": false,
+  "waiting_for_client": false,
+  "waiting_minutes_total": 0,
+  "auto_rejected": false,
+  "available_actions": [
+    "release",
+    "request_info",
+    "approve",
+    "counter_offer",
+    "reject"
+  ],
+  "history": [
+    {
+      "id": 1,
+      "type": "ACCEPTED_TO_PIPELINE",
+      "label": "Заявка принята в обработку",
+      "actor_name": "Система",
+      "actor_staff_role": null,
+      "comment": null,
+      "payload": {
+        "stage": "VERIFICATION",
+        "status": "IN_REVIEW"
+      },
+      "created_at": "2026-10-22T07:06:43.786756"
+    },
+    {
+      "id": 7,
+      "type": "CLAIMED",
+      "label": "Заявка взята в работу",
+      "actor_name": "Наталья Белова",
+      "actor_staff_role": "VERIFIER",
+      "comment": null,
+      "payload": {
+        "stage": "VERIFICATION"
+      },
+      "created_at": "2026-10-22T07:06:43.888950"
+    },
+    {
+      "id": 8,
+      "type": "PASSED_TO_UNDERWRITING",
+      "label": "Передана на андеррайтинг",
+      "actor_name": "Наталья Белова",
+      "actor_staff_role": "VERIFIER",
+      "comment": "Анкета полная, проверки пройдены",
+      "payload": {},
+      "created_at": "2026-10-22T07:06:43.921293"
+    },
+    {
+      "id": 9,
+      "type": "CLAIMED",
+      "label": "Заявка взята в работу",
+      "actor_name": "Сергей Гущин",
+      "actor_staff_role": "UNDERWRITER",
+      "comment": null,
+      "payload": {
+        "stage": "UNDERWRITING"
+      },
+      "created_at": "2026-10-22T07:06:43.968842"
+    }
+  ]
+}

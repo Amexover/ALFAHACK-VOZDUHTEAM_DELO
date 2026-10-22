@@ -1,0 +1,140 @@
+{
+  "id": 4,
+  "number": "D-2026-000004",
+  "company_id": 8,
+  "company_name": "ООО «Мебель Прайм»",
+  "borrowing_mode": "NEW_CREDIT",
+  "borrowing_mode_label": "Новый кредит",
+  "product_id": "EQUIPMENT",
+  "product_name": "Кредит на оборудование",
+  "existing_loan_name": null,
+  "amount": 1500000,
+  "term_months": 12,
+  "status": "IN_REVIEW",
+  "status_label": "На рассмотрении",
+  "current_step": null,
+  "created_at": "2026-10-22T05:41:43.594317",
+  "updated_at": "2026-10-22T07:06:43.600337",
+  "submitted_at": "2026-10-22T06:06:43.594317",
+  "company": {
+    "id": 8,
+    "name": "ООО «Мебель Прайм»",
+    "legal_form": "OOO",
+    "legal_form_label": "ООО",
+    "registration_number": "3000000000014",
+    "registration_label": "ОГРН",
+    "max_amount": 10000000
+  },
+  "existing_loan": null,
+  "preliminary_rate": 27.0,
+  "preliminary_payment": 144026,
+  "rating_based": true,
+  "rating_note": null,
+  "preliminary_note": "Окончательные условия появятся после рассмотрения заявки.",
+  "comparison": null,
+  "business_profile": {
+    "industry": "Производство корпусной мебели",
+    "months_operating": 9,
+    "monthly_revenue": 1900000,
+    "monthly_debt_payments": 150000,
+    "purpose_details": "Покупка кромкооблицовочного станка"
+  },
+  "next_steps_text": "Проверяем данные. Пока от вас ничего не требуется.",
+  "stage": {
+    "active": "CHECK",
+    "steps": [
+      {
+        "key": "SUBMITTED",
+        "label": "Заявка отправлена",
+        "state": "done"
+      },
+      {
+        "key": "CHECK",
+        "label": "Проверка данных",
+        "state": "active"
+      },
+      {
+        "key": "DECISION",
+        "label": "Решение",
+        "state": "pending"
+      },
+      {
+        "key": "COMPLETION",
+        "label": "Завершение",
+        "state": "pending"
+      }
+    ]
+  },
+  "decided_at": null,
+  "completed_at": null,
+  "info_request": null,
+  "decision": null,
+  "events": [
+    {
+      "id": 4,
+      "type": "SUBMITTED",
+      "label": "Заявка отправлена",
+      "actor": "Ольга Нечаева",
+      "actor_role": "CLIENT",
+      "text": null,
+      "fields": null,
+      "created_at": "2026-10-22T06:06:43.594317"
+    }
+  ],
+  "available_actions": [],
+  "client": {
+    "full_name": "Ольга Нечаева"
+  },
+  "rating": {
+    "score": 470,
+    "max": 1000,
+    "band": "LOW",
+    "band_label": "низкий",
+    "source_label": "Демонстрационные данные скорингового бюро",
+    "updated_at": "2026-10-22T07:06:43.593350",
+    "hint": "Рейтинг влияет на предварительный расчёт ставки, но сам по себе не означает одобрение. Окончательное решение принимает банк после рассмотрения заявки."
+  },
+  "scoring": {
+    "bureau_score": 470,
+    "debt_load_pct": 15.5,
+    "recommendation": "REJECT",
+    "recommendation_label": "Отказать",
+    "reasons": [
+      "Низкий рейтинг бюро"
+    ]
+  },
+  "checks": [
+    {
+      "key": "registration",
+      "label": "Регистрация бизнеса",
+      "status": "OK",
+      "details": "Формат регистрационного номера подтверждён (симулятор реестра)"
+    },
+    {
+      "key": "credit_history",
+      "label": "Кредитная история (симулятор бюро)",
+      "status": "WARN",
+      "details": "Рейтинг 470 из 1000 — низкий"
+    },
+    {
+      "key": "profile",
+      "label": "Полнота анкеты",
+      "status": "OK",
+      "details": "Все поля заполнены"
+    },
+    {
+      "key": "debt_load",
+      "label": "Долговая нагрузка",
+      "status": "OK",
+      "details": "15 % выручки уйдёт на платежи по долгам с учётом нового платежа"
+    }
+  ],
+  "info_requests": [],
+  "decisions": [],
+  "staff_actions": [
+    "request_info",
+    "approve",
+    "counter_offer",
+    "reject"
+  ]
+}

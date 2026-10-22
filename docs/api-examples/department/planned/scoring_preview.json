@@ -1,0 +1,27 @@
+{
+  "application_id": 1,
+  "ruleset_version": "RS-2026.10.1",
+  "requested": {
+    "amount": 1500000,
+    "term_months": 12,
+    "total_score": 58,
+    "recommendation": "MANUAL"
+  },
+  "preview": {
+    "amount": 900000,
+    "term_months": 24,
+    "total_score": 74,
+    "recommendation": "APPROVE",
+    "rate": 24.0,
+    "monthly_payment": 47600
+  },
+  "changed_rules": [
+    {
+      "key": "MONTHS_OPERATING",
+      "before": -20,
+      "after": 0,
+      "details": "Для суммы 900 000 ₽ срока работы бизнеса достаточно"
+    }
+  ],
+  "note": "Предварительный расчёт. Сохранённая заявка не меняется."
+}

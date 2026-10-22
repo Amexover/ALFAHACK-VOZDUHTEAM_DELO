@@ -1,0 +1,20 @@
+Сценарий 1. Заполненная база прежней версии (как на сервере)
+  до миграции:    таблиц 9, данные {"application_events": 1, "applications": 1, "bureau_ratings": 4, "companies": 4, "existing_loans": 2, "news": 6, "users": 3}
+  [OK] таблиц отдела в базе ещё нет
+  alembic upgrade head: 'INFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 20261022_01, Отдел сотрудников: роли внутри отдела, конвейер, внутренняя история, снимки оценки'
+  [OK] все четыре таблицы отдела появились — staff_profiles, application_pipeline, pipeline_events, score_snapshots
+  [OK] данные прежних таблиц не изменились — {"users": 3, "companies": 4, "bureau_ratings": 4, "existing_loans": 2, "applications": 1, "application_events": 1, "info_requests": 0, "decisions": 0, "news": 6}
+  [OK] версия схемы зафиксирована
+  повторный alembic upgrade head: 'INFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.'
+  [OK] повторный запуск не упал и ничего не продублировал
+  alembic downgrade base: 'INFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running downgrade 20261022_01 -> , Отдел сотрудников: роли внутри отдела, конвейер, внутренняя история, снимки оценки'
+  [OK] откат убрал только таблицы отдела
+  [OK] после отката прежние данные на месте
+
+Сценарий 2. Пустая база, поднятая приложением (таблицы уже созданы create_all)
+  [OK] приложение создало таблицы отдела само
+  [OK] демо-данные отдела на месте — заявок 6, профилей сотрудников 3
+  alembic upgrade head: 'INFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 20261022_01, Отдел сотрудников: роли внутри отдела, конвейер, внутренняя история, снимки оценки'
+  [OK] миграция на уже созданных таблицах не падает и данные не трогает
+
+ИТОГ: все проверки пройдены

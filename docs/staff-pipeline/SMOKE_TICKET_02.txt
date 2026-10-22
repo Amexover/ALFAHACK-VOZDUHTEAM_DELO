@@ -1,0 +1,90 @@
+--- кто я
+[200] GET /staff/me верификатор
+      department.staff_role = VERIFIER
+      department.pipeline_enforced = True
+[200] GET /staff/me прежняя учётная запись
+      department.staff_role = UNDERWRITER
+      department.pipeline_enforced = False
+
+--- очередь отдела
+[200] GET /staff/queue
+      counts = {'free': 6, 'mine': 0, 'overdue': 3, 'all': 6}
+      первая в очереди: D-2026-000001 ИП Сорокин Павел Игоревич
+      этап VERIFICATION, остаток -1564 мин, просрочка True
+      scope=free: 6
+      scope=mine: 0
+      scope=overdue: 3
+      scope=all: 6
+
+--- взятие в работу и гонка
+[200] POST claim верификатором
+      assignee.full_name = Наталья Белова
+      is_mine = True
+      available_actions = ['release', 'request_info', 'pass_to_underwriting']
+[409] POST claim тем же
+      ALREADY_CLAIMED: Заявка уже у вас в работе
+[409] POST claim андеррайтером
+      ALREADY_CLAIMED: Заявку уже взял в работу Наталья Белова
+[403] POST approve верификатором
+      STAGE_FORBIDDEN: Решение по заявке принимает андеррайтер. Верификатор передаёт заявку дальше.
+
+--- запрос сведений: норматив останавливается
+[200] POST request-info верификатором
+      status = NEED_INFO
+[200] GET pipeline
+      stage = VERIFICATION
+      waiting_for_client = True
+      is_overdue = False
+      time_left_minutes = -1564
+
+--- ответ клиента возвращает заявку на тот же этап
+[200] POST info-response клиентом
+      status = IN_REVIEW
+[200] GET pipeline
+      stage = VERIFICATION
+      waiting_for_client = False
+      waiting_minutes_total = 0
+      is_overdue = True
+
+--- передача на андеррайтинг и решение
+[200] POST pass-to-underwriting
+      stage = UNDERWRITING
+      assignee = None
+      stage_limit_hours = 24
+[409] POST approve андеррайтером без взятия в работу
+      NOT_ASSIGNED: Сначала возьмите заявку в работу
+[200] POST claim андеррайтером
+      assignee.full_name = Сергей Гущин
+[409] POST approve прежней учётной записью
+      ALREADY_CLAIMED: Заявку уже взял в работу Сергей Гущин
+[200] POST approve андеррайтером
+      status = APPROVED
+[200] GET pipeline
+      stage = DONE
+      available_actions = []
+      история обработки:
+        ACCEPTED_TO_PIPELINE     Система          
+        CLAIMED                  Наталья Белова   
+        INFO_REQUESTED           Наталья Белова   Подтвердите выручку
+        INFO_PROVIDED            Система          
+        PASSED_TO_UNDERWRITING   Наталья Белова   Анкета полная
+        CLAIMED                  Сергей Гущин     
+        DECISION_MADE            Сергей Гущин     Условия подтверждены
+
+--- клиентская сторона
+      статус у клиента: APPROVED, решение: APPROVED
+      внутренних полей в ответе клиента: []
+      ФИО сотрудников в ответе клиента: []
+      актёры событий: ['Банк', 'Павел Сорокин']
+      GET /staff/applications/1/pipeline клиентом: 403
+
+--- освобождение заявки
+[200] POST release
+      assignee = None
+      is_mine = False
+      последняя запись истории: RELEASED
+
+--- очередь после прогона
+[200] GET /staff/queue scope=all
+      counts = {'free': 5, 'mine': 0, 'overdue': 2, 'all': 6}
+ПРОГОН ЗАВЕРШЁН

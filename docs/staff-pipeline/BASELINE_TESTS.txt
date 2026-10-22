@@ -1,0 +1,49 @@
+Baseline: прогон набора тестов ДО начала работ по тикету 01.
+
+Коммит: ee2b3b5b1b6fa873a65fe37ddaba0e857c3e9ac1
+Ветка baseline: main
+Дата: 2026-10-22
+Команда: cd backend && python -m pytest -v
+Окружение: Python 3.13, зависимости из backend/requirements.txt без изменений
+Итог: 32 passed
+
+Этот файл фиксирует зелёный baseline тестов второго разработчика.
+После каждого шага тикета прогон повторяется, состав и число тестов
+второго разработчика не должны меняться.
+
+----------------------------------------------------------------------
+============================= test session starts =============================
+tests/test_access.py::test_login_and_roles PASSED                        [  3%]
+tests/test_access.py::test_cookie_session PASSED                         [  6%]
+tests/test_access.py::test_company_isolation PASSED                      [  9%]
+tests/test_access.py::test_foreign_loan_cannot_be_selected PASSED        [ 12%]
+tests/test_access.py::test_add_company PASSED                            [ 15%]
+tests/test_access.py::test_dashboard PASSED                              [ 18%]
+tests/test_access.py::test_rating_unavailable PASSED                     [ 21%]
+tests/test_flow.py::test_draft_persists_and_recalculates PASSED          [ 25%]
+tests/test_flow.py::test_dashboard_news_follow_product PASSED            [ 28%]
+tests/test_flow.py::test_submit_validation_and_double_submit PASSED      [ 31%]
+tests/test_flow.py::test_full_new_credit_path PASSED                     [ 34%]
+tests/test_flow.py::test_approve_and_reject PASSED                       [ 37%]
+tests/test_flow.py::test_supplement_returns_to_review PASSED             [ 40%]
+tests/test_flow.py::test_refinance_path PASSED                           [ 43%]
+tests/test_flow.py::test_staff_queue PASSED                              [ 46%]
+tests/test_pricing.py::test_rate[1000-12-NEW_CREDIT-18] PASSED           [ 50%]
+tests/test_pricing.py::test_rate[750-12-NEW_CREDIT-18] PASSED            [ 53%]
+tests/test_pricing.py::test_rate[749-12-NEW_CREDIT-22] PASSED            [ 56%]
+tests/test_pricing.py::test_rate[500-12-NEW_CREDIT-22] PASSED            [ 59%]
+tests/test_pricing.py::test_rate[499-12-NEW_CREDIT-27] PASSED            [ 62%]
+tests/test_pricing.py::test_rate[0-12-NEW_CREDIT-27] PASSED              [ 65%]
+tests/test_pricing.py::test_rate[820-24-NEW_CREDIT-18] PASSED            [ 68%]
+tests/test_pricing.py::test_rate[820-25-NEW_CREDIT-20] PASSED            [ 71%]
+tests/test_pricing.py::test_rate[420-36-NEW_CREDIT-29] PASSED            [ 75%]
+tests/test_pricing.py::test_rate[None-12-NEW_CREDIT-24] PASSED           [ 78%]
+tests/test_pricing.py::test_rate[820-12-REFINANCE-17] PASSED             [ 81%]
+tests/test_pricing.py::test_rate[420-30-REFINANCE-28] PASSED             [ 84%]
+tests/test_pricing.py::test_annuity PASSED                               [ 87%]
+tests/test_pricing.py::test_amount_limits PASSED                         [ 90%]
+tests/test_pricing.py::test_quote_endpoint PASSED                        [ 93%]
+tests/test_pricing.py::test_quote_refinance_comparison PASSED            [ 96%]
+tests/test_pricing.py::test_quote_without_rating PASSED                  [100%]
+============================== warnings summary ===============================
+======================= 32 passed, 1 warning in 10.20s ========================

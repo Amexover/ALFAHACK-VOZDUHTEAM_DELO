@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ALREADY_CLAIMED",
+    "message": "Заявку уже взял в работу Сергей Гущин",
+    "fields": {}
+  }
+}

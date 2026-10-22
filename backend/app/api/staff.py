@@ -12,13 +12,14 @@ from app.enums import BorrowingMode, DecisionKind, EventType, Status
 from app.models import Application, Company, Decision, InfoRequest, User, utcnow
 from app.schemas import ApproveIn, CounterOfferIn, RejectIn, RequestInfoIn
 from app.services import applications as svc
+from app.staff_pipeline import deps as pipeline_deps
 
 router = APIRouter(prefix="/staff", tags=["staff"])
 
 
 @router.get("/applications")
 def queue(status: list[Status] | None = Query(None), q: str | None = None,
-          _: User = Depends(staff_user), db: Session = Depends(get_db)):
+          _: User = Depends(pipeline_deps.queue_viewer), db: Session = Depends(get_db)):
     """status можно передать несколько раз; без него — все отправленные заявки."""
     stmt = select(Application).join(Company).where(Application.status != Status.DRAFT)
     if status:
@@ -36,7 +37,7 @@ def queue(status: list[Status] | None = Query(None), q: str | None = None,
 
 
 @router.get("/applications/{application_id}")
-def card(application_id: int, _: User = Depends(staff_user), db: Session = Depends(get_db)):
+def card(application_id: int, _: User = Depends(pipeline_deps.card_viewer), db: Session = Depends(get_db)):
     return svc.application_view(db, svc.get_for_staff(db, application_id), for_staff=True)
 
 
@@ -62,7 +63,7 @@ def _decide(db: Session, app: Application, staff: User, kind: DecisionKind, even
 
 
 @router.post("/applications/{application_id}/request-info")
-def request_info(application_id: int, body: RequestInfoIn, staff: User = Depends(staff_user),
+def request_info(application_id: int, body: RequestInfoIn, staff: User = Depends(pipeline_deps.info_requester),
                  db: Session = Depends(get_db)):
     app = svc.get_for_staff(db, application_id, lock=True)
     svc.require_status(app, Status.IN_REVIEW)
@@ -79,7 +80,7 @@ def request_info(application_id: int, body: RequestInfoIn, staff: User = Depends
 
 
 @router.post("/applications/{application_id}/approve")
-def approve(application_id: int, body: ApproveIn, staff: User = Depends(staff_user), db: Session = Depends(get_db)):
+def approve(application_id: int, body: ApproveIn, staff: User = Depends(pipeline_deps.approver), db: Session = Depends(get_db)):
     """Одобрение подтверждает ровно запрошенные параметры. Другие условия — только через counter-offer."""
     app = svc.get_for_staff(db, application_id, lock=True)
     svc.require_status(app, Status.IN_REVIEW)
@@ -89,7 +90,7 @@ def approve(application_id: int, body: ApproveIn, staff: User = Depends(staff_us
 
 
 @router.post("/applications/{application_id}/counter-offer")
-def counter_offer(application_id: int, body: CounterOfferIn, staff: User = Depends(staff_user),
+def counter_offer(application_id: int, body: CounterOfferIn, staff: User = Depends(pipeline_deps.counter_offer_maker),
                   db: Session = Depends(get_db)):
     app = svc.get_for_staff(db, application_id, lock=True)
     svc.require_status(app, Status.IN_REVIEW)
@@ -115,7 +116,7 @@ def counter_offer(application_id: int, body: CounterOfferIn, staff: User = Depen
 
 
 @router.post("/applications/{application_id}/reject")
-def reject(application_id: int, body: RejectIn, staff: User = Depends(staff_user), db: Session = Depends(get_db)):
+def reject(application_id: int, body: RejectIn, staff: User = Depends(pipeline_deps.rejecter), db: Session = Depends(get_db)):
     app = svc.get_for_staff(db, application_id, lock=True)
     svc.require_status(app, Status.IN_REVIEW)
     if body.reason_code not in catalog.REJECT_REASONS:

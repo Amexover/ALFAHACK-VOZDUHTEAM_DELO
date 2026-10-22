@@ -1,0 +1,60 @@
+{
+  "application_id": 6,
+  "number": "D-2026-000006",
+  "status": "IN_REVIEW",
+  "stage": "VERIFICATION",
+  "stage_label": "Проверка сведений",
+  "assignee": null,
+  "is_mine": false,
+  "claimable": true,
+  "stage_limit_hours": 4,
+  "stage_entered_at": "2026-10-21T11:06:43.594317+00:00",
+  "deadline_at": "2026-10-21T15:06:43.594317+00:00",
+  "time_left_minutes": -961,
+  "is_overdue": true,
+  "waiting_for_client": false,
+  "waiting_minutes_total": 0,
+  "auto_rejected": false,
+  "available_actions": [
+    "claim"
+  ],
+  "history": [
+    {
+      "id": 6,
+      "type": "ACCEPTED_TO_PIPELINE",
+      "label": "Заявка принята в обработку",
+      "actor_name": "Система",
+      "actor_staff_role": null,
+      "comment": null,
+      "payload": {
+        "stage": "VERIFICATION",
+        "status": "IN_REVIEW"
+      },
+      "created_at": "2026-10-22T07:06:43.793260"
+    },
+    {
+      "id": 10,
+      "type": "CLAIMED",
+      "label": "Заявка взята в работу",
+      "actor_name": "Наталья Белова",
+      "actor_staff_role": "VERIFIER",
+      "comment": null,
+      "payload": {
+        "stage": "VERIFICATION"
+      },
+      "created_at": "2026-10-22T07:06:44.070558"
+    },
+    {
+      "id": 11,
+      "type": "RELEASED",
+      "label": "Заявка освобождена",
+      "actor_name": "Наталья Белова",
+      "actor_staff_role": "VERIFIER",
+      "comment": "Передаю смене",
+      "payload": {
+        "stage": "VERIFICATION"
+      },
+      "created_at": "2026-10-22T07:06:44.082099"
+    }
+  ]
+}

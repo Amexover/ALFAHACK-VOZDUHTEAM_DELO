@@ -1,0 +1,26 @@
+файл: backend/app/api/staff.py
+ветка сравнения: main
+функций было: 8, стало: 8
+тела функций изменены: нет
+сигнатуры изменены (6): approve, card, counter_offer, queue, reject, request_info
+  approve:
+    было:  application_id: int, body: ApproveIn, staff: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: application_id: int, body: ApproveIn, staff: User=Depends(pipeline_deps.approver), db: Session=Depends(get_db)
+  card:
+    было:  application_id: int, _: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: application_id: int, _: User=Depends(pipeline_deps.card_viewer), db: Session=Depends(get_db)
+  counter_offer:
+    было:  application_id: int, body: CounterOfferIn, staff: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: application_id: int, body: CounterOfferIn, staff: User=Depends(pipeline_deps.counter_offer_maker), db: Session=Depends(get_db)
+  queue:
+    было:  status: list[Status] | None=Query(None), q: str | None=None, _: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: status: list[Status] | None=Query(None), q: str | None=None, _: User=Depends(pipeline_deps.queue_viewer), db: Session=Depends(get_db)
+  reject:
+    было:  application_id: int, body: RejectIn, staff: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: application_id: int, body: RejectIn, staff: User=Depends(pipeline_deps.rejecter), db: Session=Depends(get_db)
+  request_info:
+    было:  application_id: int, body: RequestInfoIn, staff: User=Depends(staff_user), db: Session=Depends(get_db)
+    стало: application_id: int, body: RequestInfoIn, staff: User=Depends(pipeline_deps.info_requester), db: Session=Depends(get_db)
+git diff --numstat: 7	6	backend/app/api/staff.py
+
+ПРОВЕРКА ПРОЙДЕНА: тела функций не изменены, правки только в сигнатурах.

@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "WRONG_STAGE",
+    "message": "Заявка ещё не прошла верификацию",
+    "fields": {}
+  }
+}

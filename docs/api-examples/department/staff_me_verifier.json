@@ -1,0 +1,51 @@
+{
+  "user": {
+    "id": 4,
+    "login": "verifier",
+    "full_name": "Наталья Белова",
+    "first_name": "Наталья",
+    "role": "EMPLOYEE"
+  },
+  "department": {
+    "staff_role": "VERIFIER",
+    "staff_role_label": "Верификатор",
+    "is_verifier": true,
+    "is_underwriter": false,
+    "pipeline_enforced": true,
+    "permissions": [
+      "queue:view",
+      "application:claim",
+      "application:release",
+      "info:request",
+      "application:pass_to_underwriting"
+    ],
+    "stage_norms": [
+      {
+        "stage": "VERIFICATION",
+        "stage_label": "Проверка сведений",
+        "limit_hours": 4,
+        "owner_staff_role": "VERIFIER"
+      },
+      {
+        "stage": "UNDERWRITING",
+        "stage_label": "Принятие решения",
+        "limit_hours": 24,
+        "owner_staff_role": "UNDERWRITER"
+      }
+    ],
+    "stages": [
+      {
+        "stage": "VERIFICATION",
+        "stage_label": "Проверка сведений"
+      },
+      {
+        "stage": "UNDERWRITING",
+        "stage_label": "Принятие решения"
+      },
+      {
+        "stage": "DONE",
+        "stage_label": "Обработка завершена"
+      }
+    ]
+  }
+}
