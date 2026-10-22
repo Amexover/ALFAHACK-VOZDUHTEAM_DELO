@@ -1,4 +1,4 @@
-from tests.conftest import company_id, ready_draft
+from tests.conftest import company_id, ready_draft, submitted
 
 
 def test_login_and_roles(client, alexey, staff):
@@ -57,3 +57,15 @@ def test_rating_unavailable(alexey):
     bureau.set_available(False)
     d = alexey.get(f"/companies/{company_id(alexey, 'ИП')}/dashboard").json()
     assert d["rating"] is None and d["rating_unavailable_text"] == "Рейтинг пока недоступен"
+
+
+def test_demo_tools_closed_by_default(client, alexey, staff):
+    """Служебные демо-операции закрыты: прямой запрос без авторизации ничего не меняет."""
+    from app.simulators import bureau
+
+    app_id = submitted(alexey, company_id(alexey, "ИП"))["id"]
+    for path, body in (("/api/demo/reset", {}), ("/api/demo/bureau", {"available": False})):
+        r = client.post(path, json=body)
+        assert r.status_code == 404 and r.json()["error"]["code"] == "NOT_FOUND"
+    assert bureau.is_available() is True
+    assert staff.get(f"/staff/applications/{app_id}").status_code == 200

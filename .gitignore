@@ -9,3 +9,5 @@ frontend/qa-mobile.html
 __pycache__/
 .venv/
 frontend/qa-*.html
+frontend/test-results/
+frontend/playwright-report/

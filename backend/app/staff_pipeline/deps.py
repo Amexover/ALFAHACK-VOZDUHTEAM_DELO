@@ -19,6 +19,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
+from app.core.errors import validation
 from app.models import Application, User
 from app.schemas import ApproveIn, CounterOfferIn, RejectIn, RequestInfoIn
 from app.services import applications as svc
@@ -67,9 +68,19 @@ def info_requester(application_id: int, body: RequestInfoIn,
 def approver(application_id: int, body: ApproveIn,
              member: DepartmentMember = Depends(current_member),
              db: Session = Depends(get_db)) -> User:
+    """Одобрение: причина обязательна, анкета должна быть полной.
+
+    Обе проверки стоят здесь, а не в теле чужой ручки: по контракту в app/api/staff.py
+    правятся только сигнатуры. Любая ошибка откатывает транзакцию — ни решение,
+    ни запись во внутренней истории не сохраняются.
+    """
     app, pl = _checked(db, member, application_id, PipelineAction.APPROVE)
-    pipeline.record_decision(db, member, app, pl, PipelineAction.APPROVE,
-                             comment=(body.comment or "").strip() or None)
+    comment = (body.comment or "").strip()
+    if not comment:
+        db.rollback()
+        raise validation({"comment": "Укажите причину одобрения"})
+    svc.require_complete(db, app, message=svc.INCOMPLETE_FOR_STAFF)
+    pipeline.record_decision(db, member, app, pl, PipelineAction.APPROVE, comment=comment)
     return member.user
 
 
@@ -77,6 +88,8 @@ def counter_offer_maker(application_id: int, body: CounterOfferIn,
                         member: DepartmentMember = Depends(current_member),
                         db: Session = Depends(get_db)) -> User:
     app, pl = _checked(db, member, application_id, PipelineAction.COUNTER_OFFER)
+    # Предложение других условий — такое же положительное решение: анкета должна быть полной.
+    svc.require_complete(db, app, message=svc.INCOMPLETE_FOR_STAFF)
     pipeline.record_decision(db, member, app, pl, PipelineAction.COUNTER_OFFER,
                              comment=body.comment.strip() or None,
                              payload={"amount": body.amount, "term_months": body.term_months,

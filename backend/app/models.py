@@ -1,11 +1,19 @@
 from datetime import date, datetime, timezone
 from decimal import Decimal
 
-from sqlalchemy import JSON, Boolean, Date, DateTime, ForeignKey, Integer, Numeric, String, Text
+from sqlalchemy import (JSON, Boolean, Date, DateTime, ForeignKey, Index, Integer, Numeric, String, Text,
+                        text)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.db import Base
-from app.enums import Status
+from app.enums import ACTIVE_STATUSES, Status
+
+# Правило «у компании не больше одной активной заявки на каждый способ займа» держится
+# не только проверкой в коде, но и уникальным индексом: два одновременных запроса
+# (например, из двух вкладок) не могут создать два черновика.
+ACTIVE_APPLICATION_INDEX = "uq_applications_active_company_mode"
+_ACTIVE_STATUS_SQL = ", ".join(f"'{s.value}'" for s in sorted(ACTIVE_STATUSES))
+ACTIVE_APPLICATION_WHERE = f"status IN ({_ACTIVE_STATUS_SQL})"
 
 
 def utcnow() -> datetime:
@@ -61,6 +69,11 @@ class ExistingLoan(Base):
 
 class Application(Base):
     __tablename__ = "applications"
+    __table_args__ = (
+        Index(ACTIVE_APPLICATION_INDEX, "company_id", "borrowing_mode", unique=True,
+              postgresql_where=text(ACTIVE_APPLICATION_WHERE),
+              sqlite_where=text(ACTIVE_APPLICATION_WHERE)),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     number: Mapped[str | None] = mapped_column(String(20), unique=True)

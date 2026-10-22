@@ -17,6 +17,7 @@ import {
 } from "./ui";
 import { ProfileInputs, profileBody, profileStrings } from "./wizard";
 import type { Application } from "./types";
+import { AssistantInvite } from "./assistant/entry";
 export function ApplicationPage() {
   const { id } = useParams(),
     r = useResource<Application>(`/applications/${id}`),
@@ -109,6 +110,7 @@ export function ApplicationPage() {
           Обновить статус
         </Button>
       </Heading>
+      <AssistantInvite company={a.company_id} application={a.id} />
       <section
         className={`panel status-panel ${a.status === "COMPLETED" ? "completed" : ""}`}
       >

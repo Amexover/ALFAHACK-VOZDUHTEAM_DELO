@@ -82,19 +82,26 @@ backend/scripts/gen_department_examples.py      пересборка приме�
 
 ```bash
 cd backend
-python -m pytest -q -p no:cacheprovider          # 186 тестов
+python -m pytest -q -p no:cacheprovider          # 195 тестов
 python scripts/check_migration.py                # миграция на заполненной базе
 python scripts/check_client_contract.py          # клиентский контракт не изменился
 python scripts/check_openapi_contract.py         # описание существующих ручек не изменилось
 python scripts/check_staff_file_untouched.py     # в чужом файле только сигнатуры
 python -m scripts.gen_department_examples        # пересобрать примеры ответов
 alembic -c alembic.ini upgrade head              # применить миграции
+python scripts/demo_reset.py --yes               # административный сброс демо-данных
+python -m scripts.check_client_concurrency --isolated   # гонки клиента, нужен PostgreSQL
+python -m scripts.check_staff_concurrency --isolated    # гонки сотрудников, нужен PostgreSQL
 DEPARTMENT_DEMO_QUEUE=false python -m uvicorn app.main:app   # старт без демо-очереди
 ```
 
-Если включены служебные демо-ручки (`DEMO_TOOLS_ENABLED=true`), `POST /api/demo/reset`
-восстанавливает и исходный сид, и сотрудников отдела с их ролями. Демо-очередь отдела
-восстанавливается по тому же флагу `DEPARTMENT_DEMO_QUEUE`, что и при запуске приложения.
+Служебные демо-ручки выключены по умолчанию (`DEMO_TOOLS_ENABLED=false`): они не
+требуют авторизации, поэтому включать их можно только в отдельном тестовом окружении.
+При выключенном флаге `POST /api/demo/reset` и `POST /api/demo/bureau` отвечают `404`.
+Если флаг включён, `POST /api/demo/reset` восстанавливает и исходный сид, и сотрудников
+отдела с их ролями. Тот же сброс без открытой ручки делает административная команда
+`python scripts/demo_reset.py --yes`. Демо-очередь отдела восстанавливается по тому же
+флагу `DEPARTMENT_DEMO_QUEUE`, что и при запуске приложения.
 
 После исправлений ревью добавлены 8 регрессионных проверок: блокировка до проверки прав
 для четырёх действий, отложенное чтение ответа клиента на двух этапах и повторный сброс

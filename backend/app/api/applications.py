@@ -2,6 +2,7 @@
 
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app import pricing
@@ -33,10 +34,19 @@ def create_or_resume(body: DraftCreateIn, response: Response, company: Company =
     else:
         app.amount = min(pricing.DEFAULT_AMOUNT, pricing.MAX_AMOUNT[company.legal_form])
     db.add(app)
-    db.flush()
-    db.refresh(app)
-    svc.recalc(db, app)
-    db.commit()
+    try:
+        db.flush()
+        db.refresh(app)
+        svc.recalc(db, app)
+        db.commit()
+    except IntegrityError:
+        # Второй одновременный запрос (две вкладки, двойной клик) упирается в уникальный
+        # индекс активной заявки. Правильный ответ — уже созданный черновик, а не второй.
+        db.rollback()
+        existing = svc.active_application(db, company.id, body.borrowing_mode)
+        if existing is None:
+            raise
+        return svc.application_view(db, existing)
     response.status_code = 201
     return svc.application_view(db, app)
 
@@ -145,6 +155,8 @@ def info_response(application_id: int, body: ClientAnswerIn, user: User = Depend
     request.answer_fields = fields
     request.answered_at = utcnow()
     svc.merge_profile(app, fields)
+    # Ответ не должен оставить анкету неполной: проверяем её целиком, а не только спрошенные поля.
+    svc.require_complete(db, app, prefix="fields")
     svc.recalc(db, app)
     app.status = Status.IN_REVIEW
     svc.add_event(db, app, EventType.INFO_PROVIDED, user, {"text": request.answer_text, "fields": fields})
@@ -179,6 +191,7 @@ def supplement(application_id: int, body: ClientAnswerIn, user: User = Depends(c
     for d in app.decisions:
         d.is_active = False
     svc.merge_profile(app, fields)
+    svc.require_complete(db, app, prefix="fields")
     svc.recalc(db, app)
     app.status = Status.IN_REVIEW
     app.decided_at = None

@@ -1,0 +1,51 @@
+# GPU host: docker compose -f docker-compose.yml -f deploy/compose.assistant.yml --profile assistant up -d --build
+services:
+  api:
+    environment:
+      ASSISTANT_ENABLED: "true"
+      ASSISTANT_BASE_URL: http://qwen:8000/v1
+      ASSISTANT_MODEL: Qwen/Qwen3.8-27B
+      ASSISTANT_API_KEY: ${ASSISTANT_API_KEY:?Set ASSISTANT_API_KEY for the inference service}
+  qwen:
+    profiles: [assistant]
+    image: ${QWEN_VLLM_IMAGE:-vllm/vllm-openai:latest}
+    restart: unless-stopped
+    gpus: all
+    ipc: host
+    environment:
+      VLLM_API_KEY: ${ASSISTANT_API_KEY:?Set ASSISTANT_API_KEY for the inference service}
+      HF_TOKEN: ${HF_TOKEN:-}
+    command:
+      - --model
+      - Qwen/Qwen3.8-27B
+      - --served-model-name
+      - Qwen/Qwen3.8-27B
+      - --dtype
+      - bfloat16
+      - --tensor-parallel-size
+      - ${QWEN_TENSOR_PARALLEL_SIZE:-1}
+      - --max-model-len
+      - "32768"
+      - --max-num-seqs
+      - "4"
+      - --gpu-memory-utilization
+      - "0.90"
+      - --enable-prefix-caching
+      - --language-model-only
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - qwen3_coder
+      - --reasoning-parser
+      - qwen3
+    volumes:
+      - qwen-cache:/root/.cache/huggingface
+    expose:
+      - "8000"
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20m
+volumes:
+  qwen-cache:

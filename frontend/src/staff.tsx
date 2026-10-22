@@ -23,6 +23,7 @@ import {
   TermsView,
 } from "./ui";
 import type { Application, Brief, Status } from "./types";
+import { AssistantInvite } from "./assistant/entry";
 const FILTERS = [
   ["", "Все"],
   ["IN_REVIEW", "На рассмотрении"],
@@ -219,6 +220,7 @@ export function StaffCard() {
           Обновить
         </Button>
       </Heading>
+      <AssistantInvite application={a.id} staff />
       <div className="staff-layout">
         <div className="staff-main">
           <section className="panel">

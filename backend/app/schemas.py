@@ -67,7 +67,8 @@ class RequestInfoIn(Strict):
 
 
 class ApproveIn(Strict):
-    comment: str | None = Field(None, max_length=2000)
+    # Причина одобрения обязательна: интерфейс её требует, API требует её же.
+    comment: str = Field(min_length=1, max_length=2000)
 
 
 class CounterOfferIn(Strict):

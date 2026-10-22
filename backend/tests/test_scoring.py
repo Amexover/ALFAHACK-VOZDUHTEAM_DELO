@@ -528,7 +528,7 @@ def test_supplement_and_new_decision_keep_both_snapshots(alexey, staff, monkeypa
     live = scoring_card(staff, app["id"])
     assert live["is_snapshot"] is False and live["ruleset_version"] == "RS-2026.10.2"
     assert rule_of(live, "MONTHS_OPERATING")["contribution"] == 10
-    assert staff.post(f"/staff/applications/{app['id']}/approve").status_code == 200
+    assert staff.post(f"/staff/applications/{app['id']}/approve", {"comment": "Одобряю"}).status_code == 200
     rows = snapshot_rows(app["id"])
     assert [s.reason for s in rows] == ["ON_INTAKE", "ON_DECISION", "ON_DECISION"]
     assert rows[1].breakdown == original

@@ -186,6 +186,8 @@ POST /api/companies/{companyId}/applications  {"borrowing_mode": "NEW_CREDIT" | 
 
 У компании может быть одновременно **одна** активная заявка на новый кредит и **одна** на рефинансирование. Пример ответа: [`refinance_no_loans_409.json`](api-examples/refinance_no_loans_409.json).
 
+Это правило держит и база — частичным уникальным индексом по активным статусам. Поэтому два одновременных запроса (две вкладки, двойной клик) не создают двух черновиков: второй получает `200` с той же заявкой.
+
 ### Экран 4. Новый кредит: сумма и срок (§4)
 
 Черновик создаётся с `amount = 1 000 000` (у ИП не больше лимита) и `term_months = 12`, предварительный расчёт уже посчитан ([`draft_created.json`](api-examples/draft_created.json)).
@@ -311,6 +313,7 @@ POST /api/companies/{companyId}/applications  {"borrowing_mode": "NEW_CREDIT" | 
   ```
   - `200` → статус `IN_REVIEW`, вопрос и ответ остаются в `events`.
   - `422` → ошибки в `fields.answer_text` или `fields["fields.monthly_revenue"]`.
+  - Сервер проверяет анкету **целиком**, а не только спрошенные поля: если ответ оставит любое поле анкеты пустым, придёт `422` с ключами `fields.<ключ>`, а в заявке сохранится предыдущая корректная версия. Пустые значения в `fields` не отправляйте.
 - `info_request` приходит **только** в статусе `NEED_INFO`. По старой ссылке после ответа он будет `null`, и форму показывать не нужно.
 
 #### Экран 13. Решение ([`application_counter_offer.json`](api-examples/application_counter_offer.json), [`application_rejected.json`](api-examples/application_rejected.json))
@@ -332,7 +335,7 @@ POST /api/companies/{companyId}/applications  {"borrowing_mode": "NEW_CREDIT" | 
   ```
   POST /api/applications/{id}/supplement  {"answer_text": "...", "fields": {"monthly_revenue": 3000000}}
   ```
-  Предложение аннулируется, заявка возвращается в `IN_REVIEW`, сотрудник решает заново.
+  Предложение аннулируется, заявка возвращается в `IN_REVIEW`, сотрудник решает заново. Анкета и здесь проверяется целиком: при `422` предложение остаётся в силе, а прежние данные не меняются.
 - Не писать «Деньги зачислены».
 
 #### Экран 14. Завершение ([`application_completed.json`](api-examples/application_completed.json))
@@ -390,10 +393,11 @@ POST /api/companies/{companyId}/applications  {"borrowing_mode": "NEW_CREDIT" | 
 | Действие | Запрос | Правила |
 |---|---|---|
 | Запросить сведения | `POST …/request-info` `{"message": "...", "requested_fields": ["monthly_revenue"]}` | `requested_fields` ⊂ ключей `config.profile_fields`, может быть пустым |
-| Одобрить | `POST …/approve` `{"comment": "..."}` | подтверждает **ровно запрошенные** параметры и предварительную ставку |
+| Одобрить | `POST …/approve` `{"comment": "..."}` | `comment` обязателен и непустой. Подтверждает **ровно запрошенные** параметры и предварительную ставку |
 | Другие условия | `POST …/counter-offer` `{"amount": 1200000, "term_months": 24, "rate": 19.5, "comment": "причина"}` | `comment` обязателен. Лимиты как у клиента. Для рефинансирования сумма от 100 000 ₽ до остатка долга. Если всё совпадает с запрошенным → `422 SAME_AS_REQUESTED` («используйте Одобрить») |
 | Отказать | `POST …/reject` `{"reason_code": "LOW_RATING", "comment": "..."}` | коды из `GET /api/staff/reject-reasons` ([`staff_reject_reasons.json`](api-examples/staff_reject_reasons.json)) |
 
+- Положительное решение (одобрение и другие условия) сервер пропускает только по полной анкете: иначе `422 VALIDATION_ERROR` с ключами `business_profile.<ключ>` и подсказкой запросить сведения у клиента. Отказ по неполной анкете возможен — для этого и есть причина `INSUFFICIENT_DATA`.
 - Ответ любого действия — обновлённая карточка.
 - Платёж по встречному предложению считает сервер, его можно сразу показать.
 - Перед отправкой в дизайне есть экран «Подтверждение решения», это чисто фронтовый шаг.

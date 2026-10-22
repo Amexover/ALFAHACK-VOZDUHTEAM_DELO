@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { api, ApiError, date, money, number, percent } from "./api";
 import { useResource, useSession } from "./context";
+import { AssistantInvite, assistantUrl } from "./assistant/entry";
 import {
   ApplicationLink,
   Badge,
@@ -552,6 +553,7 @@ export function DashboardPage() {
           </Link>
         </section>
       </div>
+      <AssistantInvite company={companyId} />
       <section className="panel loans-panel">
         <h2>Действующие кредиты</h2>
         {!d.loans.length ? (
@@ -622,6 +624,13 @@ export function DashboardPage() {
             Источник — локальный симулятор. Реальная кредитная история не
             запрашивается.
           </p>
+          <Link
+            className="button secondary"
+            to={assistantUrl({ company: companyId, intent: "rating" })}
+          >
+            Разобрать с помощником
+            <ArrowUpRight size={16} />
+          </Link>
         </Modal>
       )}
     </>

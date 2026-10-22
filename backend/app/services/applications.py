@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import catalog, pricing
-from app.core.errors import conflict, not_found
+from app.core.errors import conflict, not_found, validation
 from app.enums import ACTIVE_STATUSES, BorrowingMode, DecisionKind, EventType, ProductId, Role, Status
 from app.models import Application, ApplicationEvent, Company, Decision, ExistingLoan, User
 from app.simulators import bureau, registry
@@ -107,6 +107,33 @@ def missing_for_submit(app: Application) -> dict[str, str]:
         if v is None or (isinstance(v, str) and not v.strip()):
             missing[f"business_profile.{f['key']}"] = "Обязательное поле"
     return missing
+
+
+PROFILE_PREFIX = "business_profile"
+INCOMPLETE_FOR_CLIENT = "Заявка заполнена не полностью"
+INCOMPLETE_FOR_STAFF = "Анкета заполнена не полностью — запросите сведения у клиента"
+
+
+def _with_prefix(missing: dict[str, str], prefix: str) -> dict[str, str]:
+    """Те же ошибки, но под именами полей того запроса, который их прислал."""
+    if prefix == PROFILE_PREFIX:
+        return missing
+    cut = len(PROFILE_PREFIX)
+    return {(prefix + k[cut:] if k.startswith(PROFILE_PREFIX + ".") else k): v for k, v in missing.items()}
+
+
+def require_complete(db: Session, app: Application, prefix: str = PROFILE_PREFIX,
+                     message: str = INCOMPLETE_FOR_CLIENT) -> None:
+    """Общая серверная проверка анкеты: после дополнений клиента и перед решением сотрудника.
+
+    Вызывается на уже изменённой заявке. Если данные неполные — правки откатываются,
+    в базе остаётся предыдущая корректная версия, а клиент получает ошибку по полям.
+    """
+    missing = missing_for_submit(app)
+    if not missing:
+        return
+    db.rollback()
+    raise validation(_with_prefix(missing, prefix), message)
 
 
 def merge_profile(app: Application, patch: dict) -> None:

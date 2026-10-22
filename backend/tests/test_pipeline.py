@@ -174,7 +174,7 @@ def test_free_application_can_be_claimed_and_taken_one_is_refused(alexey, verifi
     status, code, message = error_of(staff.post(f"/staff/applications/{app['id']}/claim"))
     assert (status, code) == (409, "ALREADY_CLAIMED") and "Сергей Гущин" in message
     # и решение по занятой заявке другой сотрудник вынести не может
-    status, code, message = error_of(staff.post(f"/staff/applications/{app['id']}/approve", {}))
+    status, code, message = error_of(staff.post(f"/staff/applications/{app['id']}/approve", {"comment": "Одобряю"}))
     assert (status, code) == (409, "ALREADY_CLAIMED") and "Сергей Гущин" in message
     assert alexey.get(f"/applications/{app['id']}").json()["status"] == Status.IN_REVIEW
 
@@ -226,7 +226,7 @@ def test_verifier_cannot_decide(alexey, verifier):
     app = submitted(alexey, company_id(alexey, "ИП"))
     claimed_by_verifier(verifier, app["id"])
     calls = {
-        "approve": {},
+        "approve": {"comment": "Одобряю"},
         "counter-offer": {"amount": 800_000, "term_months": 18, "rate": 19.5, "comment": "Снизили"},
         "reject": {"reason_code": "LOW_RATING"},
     }
@@ -240,18 +240,18 @@ def test_verifier_cannot_decide(alexey, verifier):
 
 def test_underwriter_cannot_decide_before_verification(alexey, underwriter):
     app = submitted(alexey, company_id(alexey, "ИП"))
-    status, code, message = error_of(underwriter.post(f"/staff/applications/{app['id']}/approve", {}))
+    status, code, message = error_of(underwriter.post(f"/staff/applications/{app['id']}/approve", {"comment": "Одобряю"}))
     assert (status, code) == (409, "WRONG_STAGE") and "верификацию" in message
 
 
 def test_underwriter_cannot_decide_without_claiming(alexey, verifier, underwriter):
     app = submitted(alexey, company_id(alexey, "ИП"))
     at_underwriting(verifier, app["id"])
-    status, code, message = error_of(underwriter.post(f"/staff/applications/{app['id']}/approve", {}))
+    status, code, message = error_of(underwriter.post(f"/staff/applications/{app['id']}/approve", {"comment": "Одобряю"}))
     assert (status, code) == (409, "NOT_ASSIGNED") and "возьмите заявку в работу" in message
 
     underwriter.post(f"/staff/applications/{app['id']}/claim")
-    assert underwriter.post(f"/staff/applications/{app['id']}/approve", {}).status_code == 200
+    assert underwriter.post(f"/staff/applications/{app['id']}/approve", {"comment": "Одобряю"}).status_code == 200
     card = pipeline_card(underwriter, app["id"])
     assert card["stage"] == PipelineStage.DONE and card["available_actions"] == []
     decision = card["history"][-1]

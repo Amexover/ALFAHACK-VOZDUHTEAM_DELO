@@ -8,6 +8,7 @@ from app.core.errors import install_error_handlers
 from app.core.settings import settings
 from app.seed import init_db
 from app.staff_pipeline import install_staff_pipeline, seed_department_on_startup
+from app.assistant.api import router as assistant_router
 
 
 @asynccontextmanager
@@ -37,3 +38,4 @@ install_error_handlers(app)
 for module in (meta, auth, companies, pricing, applications, staff):
     app.include_router(module.router, prefix="/api")
 install_staff_pipeline(app)
+app.include_router(assistant_router, prefix="/api")

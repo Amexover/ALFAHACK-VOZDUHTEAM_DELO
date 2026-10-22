@@ -67,7 +67,7 @@ def test_full_new_credit_path(alexey, staff):
                    {"amount": 800_000, "term_months": 18, "rate": 19.5, "comment": "Снизили сумму по выручке"})
     assert r.json()["status"] == "COUNTER_OFFER"
     # второе решение — конфликт
-    assert staff.post(f"/staff/applications/{aid}/approve", {}).status_code == 409
+    assert staff.post(f"/staff/applications/{aid}/approve", {"comment": "Одобряю"}).status_code == 409
 
     view = alexey.get(f"/applications/{aid}").json()
     d = view["decision"]

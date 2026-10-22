@@ -25,6 +25,12 @@ services:
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost}
       BUREAU_AVAILABLE: ${BUREAU_AVAILABLE:-true}
       DEMO_TOOLS_ENABLED: ${DEMO_TOOLS_ENABLED:-false}
+      ASSISTANT_ENABLED: ${ASSISTANT_ENABLED:-false}
+      ASSISTANT_MODEL: ${ASSISTANT_MODEL:-Qwen/Qwen3.8-27B}
+      ASSISTANT_BASE_URL: ${ASSISTANT_BASE_URL:-http://host.docker.internal:8001/v1}
+      ASSISTANT_API_KEY: ${ASSISTANT_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     expose:
       - "8000"
   frontend:

@@ -14,6 +14,7 @@ from app.core.settings import settings
 # Импорт моделей нужен, чтобы метаданные знали обо всех таблицах.
 from app import models  # noqa: F401
 from app.staff_pipeline import models as staff_pipeline_models  # noqa: F401
+from app.assistant import models as assistant_models  # noqa: F401
 
 config = context.config
 if config.config_file_name is not None:

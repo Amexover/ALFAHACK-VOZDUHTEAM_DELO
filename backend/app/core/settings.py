@@ -12,8 +12,11 @@ class Settings(BaseSettings):
     cookie_samesite: str = "lax"
     session_max_age_seconds: int = 7 * 24 * 3600
     bureau_available: bool = True
-    # Служебные эндпоинты /api/demo/* (сброс данных, выключение бюро)
-    demo_tools_enabled: bool = True
+    # Служебные эндпоинты /api/demo/* (сброс данных, выключение бюро).
+    # По умолчанию выключены: они не требуют авторизации, поэтому включать их
+    # можно только в отдельном тестовом окружении. На общем сервере сброс
+    # выполняется административной командой scripts/demo_reset.py.
+    demo_tools_enabled: bool = False
 
     @property
     def cors_origin_list(self) -> list[str]:

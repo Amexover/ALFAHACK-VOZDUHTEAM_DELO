@@ -23,7 +23,7 @@ def prepare_application(alexey, client):
 
 
 @pytest.mark.parametrize("action,body", [
-    ("approve", {}),
+    ("approve", {"comment": "Одобряю"}),
     ("reject", {"reason_code": "LOW_RATING"}),
     ("counter-offer", {"amount": 800_000, "term_months": 18, "rate": 19.5, "comment": "Lower amount"}),
     ("request-info", {"message": "Confirm revenue", "requested_fields": ["monthly_revenue"]}),

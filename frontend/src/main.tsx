@@ -1,4 +1,10 @@
-import React, { useEffect, useState, type ReactNode } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
@@ -11,7 +17,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, Sparkles } from "lucide-react";
 import { api } from "./api";
 import { SessionProvider, useResource, useSession } from "./context";
 import { ApplicationPage } from "./application";
@@ -28,7 +34,13 @@ import { StaffCard, StaffQueue } from "./staff";
 import { Wizard } from "./wizard";
 import { Busy, Button, ErrorBox } from "./ui";
 import type { Application, Company, Role } from "./types";
+import { assistantUrl } from "./assistant/entry";
+import type { Conversation } from "./assistant/types";
+import "./tailwind.css";
 import "./styles.css";
+const AssistantPage = lazy(() =>
+  import("./assistant/page").then((m) => ({ default: m.AssistantPage })),
+);
 class Boundary extends React.Component<
   { children: ReactNode },
   { error: boolean }
@@ -69,6 +81,12 @@ function Frame() {
   const { user, setUser } = useSession(),
     location = useLocation(),
     nav = useNavigate();
+  const assistantParams = new URLSearchParams(location.search);
+  const assistantConversation = useResource<Conversation>(
+    location.pathname === "/assistant" && assistantParams.get("conversation")
+      ? `/assistant/conversations/${encodeURIComponent(assistantParams.get("conversation")!)}`
+      : null,
+  );
   const companyMatch = location.pathname.match(/^\/companies\/(\d+)/),
     appMatch = location.pathname.match(/^\/applications\/(\d+)/);
   const app = useResource<Application>(
@@ -82,6 +100,13 @@ function Frame() {
   const cid =
     Number(
       companyMatch?.[1] ||
+        (location.pathname === "/assistant" &&
+        assistantConversation.data?.id === assistantParams.get("conversation")
+          ? assistantConversation.data?.company_id
+          : null) ||
+        (location.pathname === "/assistant"
+          ? assistantParams.get("company")
+          : null) ||
         app.data?.company_id ||
         localStorage.getItem(`delo:company:${user!.id}`),
     ) || 0;
@@ -150,6 +175,13 @@ function Frame() {
                 Заявки бизнеса
               </NavLink>
             )}
+            <NavLink
+              className="assistant-nav-link"
+              to={assistantUrl({ company: client ? cid : undefined })}
+            >
+              <Sparkles size={14} />
+              Помощник
+            </NavLink>
             <NavLink to="/help">Помощь</NavLink>
           </nav>
           <div className="account">
@@ -243,6 +275,14 @@ function App() {
       <Route element={<Protected />}>
         <Route element={<Frame />}>
           <Route path="/help" element={<Help />} />
+          <Route
+            path="/assistant"
+            element={
+              <Suspense fallback={<Busy label="Открываем помощника…" />}>
+                <AssistantPage />
+              </Suspense>
+            }
+          />
           <Route element={<Protected role="CLIENT" />}>
             <Route path="/companies" element={<Companies />} />
             <Route path="/companies/:companyId" element={<DashboardPage />} />
