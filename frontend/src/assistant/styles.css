@@ -342,31 +342,28 @@
   max-width: 640px;
   margin: auto;
 }
-.assistant-welcome [data-slot="agent-state"] {
-  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --fs-section: 27px;
-  --fs-control: 13px;
-}
-.assistant-welcome
-  [data-slot="agent-state"][data-size="lg"]
-  .v-agent-state__field {
-  width: 164px;
-  margin-block: -10px 0;
-}
-.assistant-welcome .v-agent-state__label {
-  display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.assistant-welcome-copy { text-align: center; }
+.assistant-welcome-copy h2 {
+  font-size: 27px;
   font-weight: 600;
   letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0;
 }
-.assistant-welcome .v-agent-state__description {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  display: block;
-  margin-top: 11px;
+.assistant-welcome-copy p {
+  margin: 14px auto 0;
   line-height: 1.65;
-  max-width: 40ch !important;
+  max-width: 40ch;
   color: var(--muted);
 }
+.assistant-thinking { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 13px; padding: 8px 0 16px; }
+.assistant-thinking-dots { display: inline-flex; align-items: center; gap: 5px; }
+.assistant-thinking-dots i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: assistant-think 1.4s ease-in-out infinite; }
+.assistant-thinking-dots i:nth-child(2) { animation-delay: 160ms; }
+.assistant-thinking-dots i:nth-child(3) { animation-delay: 320ms; }
+@keyframes assistant-think { 0%, 70%, 100% { opacity: .35; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-3px); } }
+@media (max-width: 700px) { .assistant-welcome-copy h2 { font-size: 23px; } }
+@media (prefers-reduced-motion: reduce) { .assistant-thinking-dots i { animation: none; } }
 .assistant-starters {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -427,8 +424,8 @@
     box-shadow 0.16s;
 }
 .assistant-composer:focus-within {
-  border-color: #78a6e5;
-  box-shadow: 0 0 0 3px #edf4fd;
+  border-color: #64646b;
+  box-shadow: none;
 }
 .assistant-composer.is-busy {
   background: #fafbfe;

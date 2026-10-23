@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { api, ApiError, date, money, number, percent } from "./api";
 import { useResource, useSession } from "./context";
-import { AssistantInvite, assistantUrl } from "./assistant/entry";
+import { assistantUrl } from "./assistant/entry";
 import {
   ApplicationLink,
   Badge,
@@ -407,6 +407,34 @@ export function NewsList({ items }: { items: News[] }) {
     </>
   );
 }
+function BusinessBanner({ partner = false }: { partner?: boolean }) {
+  const [details, setDetails] = useState(false);
+  const title = partner ? "Бухгалтерия, которая рядом." : "Меньше рутины. Больше времени на дело.";
+  return (
+    <>
+      <section className={`business-banner ${partner ? "is-partner" : "is-bank"}`} aria-label={partner ? "Предложение партнёра — макет" : "Предложение банка — макет"}>
+        <div className="business-banner-copy">
+          <h2>{title}</h2>
+          <p>{partner ? "Место для предложения полезного партнёрского сервиса." : "Место для подходящего сервиса банка."}</p>
+          <div className="business-banner-actions">
+            <button className="button secondary" onClick={() => setDetails(true)}>
+              {partner ? "Узнать больше" : "Посмотреть сервисы"}<ArrowUpRight size={17} />
+            </button>
+            <span>{partner ? "Сервис партнёра" : "Предложение банка"} · макет</span>
+          </div>
+        </div>
+        <div className="business-banner-signature" aria-hidden="true">
+          {partner ? <>Время<br />для главного.</> : <>Для вашего<br />бизнеса.</>}
+        </div>
+      </section>
+      {details && <Modal title={partner ? "Сервис партнёра" : "Сервисы банка"} onClose={() => setDetails(false)}>
+        <p>Это демонстрационный макет предложения. Конкретный сервис, поставщик и условия пока не выбраны.</p>
+        <p className="muted">Здесь появятся описание сервиса и переход к его подключению. Сейчас подключение и передача данных не выполняются.</p>
+      </Modal>}
+    </>
+  );
+}
+
 export function DashboardPage() {
   const { companyId } = useParams(),
     { user } = useSession(),
@@ -553,7 +581,7 @@ export function DashboardPage() {
           </Link>
         </section>
       </div>
-      <AssistantInvite company={companyId} />
+      <BusinessBanner />
       <section className="panel loans-panel">
         <h2>Действующие кредиты</h2>
         {!d.loans.length ? (
@@ -611,6 +639,7 @@ export function DashboardPage() {
         </div>
         <NewsList items={d.news.slice(0, 3)} />
       </section>
+      <BusinessBanner partner />
       {ratingInfo && (
         <Modal
           title="Что означает рейтинг"

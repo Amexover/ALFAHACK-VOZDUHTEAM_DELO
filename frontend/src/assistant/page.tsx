@@ -5,7 +5,7 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, type SetURLSearchParams } from "react-router-dom";
 import {
   ArrowDown,
   ArrowRight,
@@ -37,7 +37,7 @@ import {
 import { api, ApiError, date, money } from "../api";
 import { useSession } from "../context";
 import { Badge, Busy, Button, ErrorBox, Modal } from "../ui";
-import { AgentState, type AgentStatus } from "@/components/ui/agent-state";
+import { type AgentStatus } from "@/components/ui/agent-state";
 import type { Application, Dashboard } from "../types";
 import {
   CopyButton,
@@ -148,10 +148,11 @@ export function AssistantPage() {
   );
 }
 
-function AssistantWorkspace({ params }: { params: URLSearchParams }) {
+export function AssistantWorkspace({ params, onParamsChange }: { params: URLSearchParams; onParamsChange?: SetURLSearchParams }) {
   const { user } = useSession(),
     staff = user!.role === "EMPLOYEE";
-  const [, setParams] = useSearchParams();
+  const [, routeSetParams] = useSearchParams();
+  const setParams = onParamsChange || routeSetParams;
   const initialId = params.get("conversation");
   const positive = (v: string | null) =>
     v && /^[1-9]\d*$/.test(v) && Number.isSafeInteger(Number(v))
@@ -205,6 +206,7 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
     transcript = useRef<HTMLDivElement>(null),
     bottom = useRef<HTMLDivElement>(null),
     autoScroll = useRef(true);
+  const lastSubmitted = useRef("");
   const attempt = useRef<{
     request_id: string;
     content: string;
@@ -469,6 +471,8 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
     setSendError(null);
     setStream("");
     setQuestion(content);
+    lastSubmitted.current = content;
+    setText("");
     setLiveSources([]);
     setStatus("thinking");
     setStatusText("Собираю контекст для ответа");
@@ -550,7 +554,6 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
           )
         : (e as Error);
       setSendError(err);
-      setText((prev) => prev || content);
       // A lost connection may hide a successfully persisted response. Reconcile first.
       if (current) {
         try {
@@ -618,7 +621,6 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
       .includes(historyQuery.toLocaleLowerCase("ru")),
   );
   const empty = !turns.length && !busy;
-  const activeStatus = !config?.enabled && config ? "needs-input" : status;
   return (
     <div className="assistant-page">
       <header className="assistant-page-heading">
@@ -894,20 +896,12 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
                     )}
                     {empty && !loadError && (
                       <div className="assistant-welcome">
-                        <AgentState
-                          status={activeStatus}
-                          size="lg"
-                          label={
-                            staff
-                              ? "Сложная заявка? Разберём вместе."
-                              : "Разберёмся. И двинемся дальше."
-                          }
-                          description={
-                            staff
-                              ? "Соберу факты, подсвечу вопросы и помогу подготовить ответ клиенту."
-                              : "Помогу понять рейтинг, подготовить заявку и найти ответы о финансировании."
-                          }
-                        />
+                        <div className="assistant-welcome-copy">
+                          <h2>{staff ? "Сложная заявка? Разберём вместе." : "Разберёмся. И двинемся дальше."}</h2>
+                          <p>{staff
+                            ? "Соберу факты, подсвечу вопросы и помогу подготовить ответ клиенту."
+                            : "Помогу понять рейтинг, подготовить заявку и найти ответы о финансировании."}</p>
+                        </div>
                         <div className="assistant-starters">
                           {starters.map(
                             ({
@@ -1018,11 +1012,10 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
                           <span>Вы · сейчас</span>
                         </div>
                         <article className="assistant-answer">
-                          <AgentState
-                            status={status}
-                            size="sm"
-                            label={statusText || "Думаю над ответом"}
-                          />
+                          <div className="assistant-thinking" role="status">
+                            <span className="assistant-thinking-dots" aria-hidden="true"><i /><i /><i /></span>
+                            <span>{statusText || "Думаю над ответом"}</span>
+                          </div>
                           {stream && (
                             <div className="assistant-stream-text">
                               <Markdown
@@ -1068,6 +1061,7 @@ function AssistantWorkspace({ params }: { params: URLSearchParams }) {
                 {sendError && (
                   <div className="assistant-send-error" role="alert">
                     <span>{sendError.message}</span>
+                    <button className="assistant-error-retry" onClick={() => prepare(lastSubmitted.current, intent)}>Вернуть вопрос</button>
                     <button
                       onClick={() => {
                         setSendError(null);

@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
-import { AgentState } from "@/components/ui/agent-state";
+import type { MouseEvent } from "react";
+import { ArrowUpRight, MessageSquareText } from "lucide-react";
 import type { Intent } from "./types";
 import "./styles.css";
+
+export function openAssistant(event: MouseEvent, scope: { company?: number | string; application?: number | string; intent?: string }) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  event.preventDefault();
+  window.dispatchEvent(new CustomEvent("delo:assistant-open", { detail: scope }));
+}
 
 export function assistantUrl(
   scope: {
@@ -30,7 +36,7 @@ export function AssistantInvite({
   return (
     <section className="assistant-invite">
       <div className="assistant-invite-visual">
-        <AgentState size="sm" status="idle" label="" aria-label="Помощник" />
+        <MessageSquareText size={28} aria-hidden="true" />
       </div>
       <div>
         <h2>
@@ -46,6 +52,7 @@ export function AssistantInvite({
       </div>
       <Link
         className="button secondary"
+        onClick={(event) => openAssistant(event, {company, application, intent: staff ? "application_review" : "chat"})}
         to={assistantUrl({
           company,
           application,

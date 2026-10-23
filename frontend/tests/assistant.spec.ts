@@ -166,7 +166,7 @@ test("мобильный интерфейс: состояния, история,
   await noOverflow(page);
 });
 
-test("ошибка и отмена: вопрос сохраняется, частичный ответ не выдаётся за готовый", async ({
+test("ошибка и отмена: поле очищается, вопрос можно вернуть вручную", async ({
   page,
   context,
 }) => {
@@ -177,7 +177,9 @@ test("ошибка и отмена: вопрос сохраняется, час�
   await expect(page.getByRole("alert")).toContainText("Тестовый таймаут");
   await expect(
     page.getByRole("textbox", { name: "Сообщение помощнику" }),
-  ).toHaveValue("Проверь сбой");
+  ).toHaveValue("");
+  await page.getByRole("button", { name: "Вернуть вопрос", exact: true }).click();
+  await expect(page.getByRole("textbox", { name: "Сообщение помощнику" })).toHaveValue("Проверь сбой");
   await expect(page.locator(".assistant-failed-turn")).toContainText(
     "Ответ не завершён",
   );
@@ -185,8 +187,9 @@ test("ошибка и отмена: вопрос сохраняется, час�
   await page.getByRole("button", { name: "Остановить ответ" }).click();
   await expect(
     page.getByRole("textbox", { name: "Сообщение помощнику" }),
-  ).toHaveValue("Ответь долго");
+  ).toHaveValue("");
   await expect(page.getByRole("alert")).toContainText("Ответ остановлен");
+  await page.getByRole("button", { name: "Вернуть вопрос", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Отправить сообщение" }),
   ).toBeEnabled();

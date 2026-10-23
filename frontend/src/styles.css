@@ -761,6 +761,34 @@ summary {
   grid-template-columns: minmax(0, 1.7fr) minmax(285px, 1fr);
   gap: 18px;
 }
+.business-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 24px;
+  padding: 34px 40px;
+  border-radius: var(--radius);
+  background: var(--tint);
+  color: var(--ink);
+}
+.business-banner-copy { max-width: 600px; }
+.business-banner h2 { max-width: 24ch; font-size: 28px; line-height: 1.2; }
+.business-banner p { margin-top: 12px; color: #365b85; }
+.business-banner-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 20px; margin-top: 24px; }
+.business-banner-actions > span { color: #365b85; font-size: 12px; }
+.business-banner .button { min-height: 44px; background: var(--surface); }
+.business-banner-signature { flex-shrink: 0; color: var(--accent); font-size: 36px; line-height: 1.12; font-weight: 600; letter-spacing: -.03em; margin-right: 4%; }
+.business-banner.is-partner { background: var(--surface); }
+.business-banner.is-partner p,
+.business-banner.is-partner .business-banner-actions > span { color: var(--muted); }
+.business-banner.is-partner .button { background: var(--bg); }
+.business-banner.is-partner .business-banner-signature { color: var(--muted); }
+@media (max-width: 700px) {
+  .business-banner { padding: 26px 22px; gap: 24px; align-items: flex-start; }
+  .business-banner h2 { font-size: 25px; }
+  .business-banner-signature { display: none; }
+}
 .current-application {
   grid-row: span 2;
   display: flex;

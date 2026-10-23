@@ -24,7 +24,8 @@ def main():
         client.headers["Authorization"] = "Bearer " + auth.json()["token"]
         health = client.get("/api/assistant/health")
         health.raise_for_status()
-        assert health.json()["model"] == "Qwen/Qwen3.8-27B"
+        expected_model = os.environ.get("DELO_EXPECTED_MODEL", "Qwen/Qwen3.8-27B")
+        assert health.json()["model"] == expected_model
         companies = client.get("/api/companies")
         companies.raise_for_status()
         company = companies.json()["items"][0]

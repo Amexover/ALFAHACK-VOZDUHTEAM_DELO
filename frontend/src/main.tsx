@@ -38,8 +38,8 @@ import { assistantUrl } from "./assistant/entry";
 import type { Conversation } from "./assistant/types";
 import "./tailwind.css";
 import "./styles.css";
-const AssistantPage = lazy(() =>
-  import("./assistant/page").then((m) => ({ default: m.AssistantPage })),
+const AssistantDock = lazy(() =>
+  import("./assistant/dock").then((m) => ({ default: m.AssistantDock })),
 );
 class Boundary extends React.Component<
   { children: ReactNode },
@@ -245,6 +245,9 @@ function Frame() {
           </div>
         </footer>
       </main>
+      <Suspense fallback={null}>
+        <AssistantDock key={user!.id} company={client ? cid || undefined : undefined} application={!client && appMatch ? Number(appMatch[1]) : undefined} />
+      </Suspense>
     </>
   );
 }
@@ -279,7 +282,7 @@ function App() {
             path="/assistant"
             element={
               <Suspense fallback={<Busy label="Открываем помощника…" />}>
-                <AssistantPage />
+                <div className="assistant-route-placeholder" />
               </Suspense>
             }
           />
